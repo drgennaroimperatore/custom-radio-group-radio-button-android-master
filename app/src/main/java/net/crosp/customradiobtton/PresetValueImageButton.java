@@ -14,14 +14,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 
 import java.util.ArrayList;
 
 
-public class PresetValueButton extends RelativeLayout implements RadioCheckable {
+public class PresetValueImageButton extends RelativeLayout implements RadioCheckable {
     // Views
-    private TextView mValueTextView, mUnitTextView;
+    private ImageView mValueImageView;
+    private TextView mUnitTextView;
 
     // Constants
     public static final int DEFAULT_TEXT_COLOR = Color.TRANSPARENT;
@@ -45,26 +47,26 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
     // Constructors
     //================================================================================
 
-    public PresetValueButton(Context context) {
+    public PresetValueImageButton(Context context) {
         super(context);
         setupView();
     }
 
-    public PresetValueButton(Context context, AttributeSet attrs) {
+    public PresetValueImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         parseAttributes(attrs);
         setupView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    public PresetValueButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PresetValueImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         parseAttributes(attrs);
         setupView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public PresetValueButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public PresetValueImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         parseAttributes(attrs);
         setupView();
@@ -81,8 +83,8 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
         try {
             mValue = a.getString(R.styleable.PresetValueButton_presetButtonValueText);
             mUnit = a.getString(R.styleable.PresetValueButton_presetButtonUnitText);
-            mValueTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonValueTextColor, Color.WHITE);
-            mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.BLACK);
+            mValueTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonValueTextColor, resources.getColor(R.color.black));
+            mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.WHITE);
             mUnitTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonUnitTextColor, resources.getColor(R.color.gray));
         } finally {
             a.recycle();
@@ -99,7 +101,7 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
     protected void inflateView() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.custom_preset_button, this, true);
-        mValueTextView = (TextView) findViewById(R.id.text_view_value);
+        mValueImageView = (ImageView) findViewById(R.id.text_view_value);
         mUnitTextView = (TextView) findViewById(R.id.text_view_unit);
         mInitialBackgroundDrawable = getBackground();
     }
@@ -108,11 +110,9 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
         if (mUnitTextColor != DEFAULT_TEXT_COLOR) {
             mUnitTextView.setTextColor(mUnitTextColor);
         }
-        if (mValueTextColor != DEFAULT_TEXT_COLOR) {
-            mValueTextView.setTextColor(mValueTextColor);
-        }
+
         mUnitTextView.setText(mUnit);
-        mValueTextView.setText(mValue);
+
     }
 
     //================================================================================
@@ -153,13 +153,13 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
 
     public void setCheckedState() {
         setBackgroundResource(R.drawable.background_shape_preset_button__pressed);
-        mValueTextView.setTextColor(mPressedTextColor);
+
         mUnitTextView.setTextColor(mPressedTextColor);
     }
 
     public void setNormalState() {
         setBackgroundDrawable(mInitialBackgroundDrawable);
-        mValueTextView.setTextColor(mValueTextColor);
+
         mUnitTextView.setTextColor(mUnitTextColor);
     }
 
