@@ -7,16 +7,30 @@
     android:background="@color/black"
     tools:context="net.crosp.customradiobtton.MainActivity">
 
+    <TextView
+            android:id="@+id/textView_type_of_animal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            style="@style/NameOfChoice"
+            android:text="Type of Animal">
+    </TextView>
+
     <net.crosp.customradiobtton.PresetRadioGroup
         android:id="@+id/preset_time_radio_group"
+        android:layout_below="@id/textView_type_of_animal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentTop="false"
         android:layout_margin="3dp"
         android:layout_marginBottom="13dp"
         android:orientation="horizontal"
         android:weightSum="3"
         app:presetRadioCheckedId="@+id/preset_time_value_button_60">
+
+
 
         <net.crosp.customradiobtton.PresetValueButton
             android:id="@+id/preset_time_value_button_30"
@@ -47,6 +61,18 @@
 
     </net.crosp.customradiobtton.PresetRadioGroup>
 
+    <TextView
+            android:id="@+id/textView_symptom_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/preset_time_radio_group"
+
+            android:layout_weight="1"
+            style="@style/NameOfChoice"
+
+            android:text="Symptoms">
+    </TextView>
+
     <net.crosp.customradiobtton.PresetRadioGroup
             android:id="@+id/preset_time_radio_group_1"
             android:layout_width="match_parent"
@@ -54,10 +80,11 @@
             android:layout_alignParentTop="false"
             android:layout_margin="3dp"
             android:layout_marginBottom="13dp"
-            android:layout_below="@id/preset_time_radio_group"
+            android:layout_below="@id/textView_symptom_heading"
             android:orientation="horizontal"
             android:weightSum="3"
             app:presetRadioCheckedId="@+id/preset_time_value_button_6">
+
 
         <net.crosp.customradiobtton.PresetValueButton
                 android:id="@+id/preset_time_value_button_3"
@@ -66,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:presetButtonUnitText="Present"
-                app:presetButtonValueText="@string/title_time_preset_30" />
+                app:presetButtonValueText="Fever" />
 
         <net.crosp.customradiobtton.PresetValueButton
                 android:id="@+id/preset_time_value_button_6"
@@ -75,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:presetButtonUnitText="Not Present"
-                app:presetButtonValueText="@string/title_time_preset_60" />
+                app:presetButtonValueText="Fever" />
 
         <net.crosp.customradiobtton.PresetValueButton
                 android:id="@+id/preset_time_value_button_12"
@@ -84,9 +111,52 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:presetButtonUnitText="Not Observed"
-                app:presetButtonValueText="@string/title_time_preset_120" />
+                app:presetButtonValueText="Fever" />
 
     </net.crosp.customradiobtton.PresetRadioGroup>
+
+    <net.crosp.customradiobtton.PresetRadioGroup
+            android:id="@+id/preset_time_radio_group_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_margin="3dp"
+            android:layout_marginBottom="13dp"
+            android:layout_below="@id/preset_time_radio_group_1"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            app:presetRadioCheckedId="@+id/preset_time_value_button_6">
+
+
+        <net.crosp.customradiobtton.PresetValueButton
+                android:id="@+id/preset_time_value_button_23"
+                style="@style/PresetLayoutButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:presetButtonUnitText="Present"
+                app:presetButtonValueText="Mouth Ulcer" />
+
+        <net.crosp.customradiobtton.PresetValueButton
+                android:id="@+id/preset_time_value_button_26"
+                style="@style/PresetLayoutButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:presetButtonUnitText="Not Present"
+                app:presetButtonValueText="Mouth Ulcer" />
+
+        <net.crosp.customradiobtton.PresetValueButton
+                android:id="@+id/preset_time_value_button_212"
+                style="@style/PresetLayoutButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:presetButtonUnitText="Not Observed"
+                app:presetButtonValueText="Mouth Ulcer" />
+
+    </net.crosp.customradiobtton.PresetRadioGroup>
+
 
     <Button  android:id="@+id/next_button"
              android:layout_width="wrap_content"
