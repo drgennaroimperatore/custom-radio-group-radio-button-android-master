@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:presetButtonUnitText="@string/unit_seconds"
+            app:presetButtonUnitText="Cattle"
             app:presetButtonValueText="@string/title_time_preset_30" />
 
         <net.crosp.customradiobtton.PresetValueButton
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:presetButtonUnitText="@string/unit_seconds"
+            app:presetButtonUnitText="Sheep"
             app:presetButtonValueText="@string/title_time_preset_60" />
 
         <net.crosp.customradiobtton.PresetValueButton
@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:presetButtonUnitText="@string/unit_seconds"
+            app:presetButtonUnitText="Camel"
             app:presetButtonValueText="@string/title_time_preset_120" />
 
     </net.crosp.customradiobtton.PresetRadioGroup>
@@ -65,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:presetButtonUnitText="@string/unit_seconds"
+                app:presetButtonUnitText="Present"
                 app:presetButtonValueText="@string/title_time_preset_30" />
 
         <net.crosp.customradiobtton.PresetValueButton
@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:presetButtonUnitText="@string/unit_seconds"
+                app:presetButtonUnitText="Not Present"
                 app:presetButtonValueText="@string/title_time_preset_60" />
 
         <net.crosp.customradiobtton.PresetValueButton
@@ -83,10 +83,26 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:presetButtonUnitText="@string/unit_seconds"
+                app:presetButtonUnitText="Not Observed"
                 app:presetButtonValueText="@string/title_time_preset_120" />
 
     </net.crosp.customradiobtton.PresetRadioGroup>
+
+    <Button  android:id="@+id/next_button"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:layout_alignParentRight="true"
+             android:text="Next >">
+    </Button>
+
+    <Button  android:id="@+id/prev_button"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:layout_alignParentLeft="true"
+             android:text="&lt; Prev">
+    </Button>
 
 
 </RelativeLayout>
