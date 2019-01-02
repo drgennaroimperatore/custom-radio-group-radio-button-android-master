@@ -2,8 +2,10 @@
     <ImageView
         android:id="@+id/image_view_value"
         style="@style/PresetLayoutButton_ValueImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="25dp"
+        android:src="@string/animal_icon_name"
+        android:scaleType="fitXY"
         />
 
     <TextView
@@ -12,5 +14,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/unit_seconds"
-        android:layout_below="@+id/text_view_value" />
+        android:layout_below="@+id/image_view_value" />
 </merge>

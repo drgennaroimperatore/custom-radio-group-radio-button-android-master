@@ -32,16 +32,17 @@
 
 
 
-        <net.crosp.customradiobtton.PresetValueButton
+        <net.crosp.customradiobtton.PresetValueImageButton
             android:id="@+id/preset_time_value_button_30"
             style="@style/PresetLayoutButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:presetButtonUnitText="Cattle"
-            app:presetButtonValueText="@string/title_time_preset_30" />
+            app:presetButtonValueText="@string/title_time_preset_30"
+            />
 
-        <net.crosp.customradiobtton.PresetValueButton
+        <net.crosp.customradiobtton.PresetValueImageButton
             android:id="@+id/preset_time_value_button_60"
             style="@style/PresetLayoutButton"
             android:layout_width="0dp"
@@ -50,7 +51,7 @@
             app:presetButtonUnitText="Sheep"
             app:presetButtonValueText="@string/title_time_preset_60" />
 
-        <net.crosp.customradiobtton.PresetValueButton
+        <net.crosp.customradiobtton.PresetValueImageButton
             android:id="@+id/preset_time_value_button_120"
             style="@style/PresetLayoutButton"
             android:layout_width="0dp"

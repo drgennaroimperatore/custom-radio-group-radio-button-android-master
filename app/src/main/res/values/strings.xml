@@ -5,4 +5,6 @@
     <string name="title_time_preset_120">-</string>
     <string name="title_time_preset_60">-</string>
     <string name="title_settings_set_duration">Set duration</string>
+    <string name="animal_icon_name">@mipmap/icon_cow </string>
+
 </resources>

@@ -36,6 +36,8 @@
         <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">
             @dimen/padding_side_title_text
         </item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
         <item name="android:paddingLeft">@dimen/padding_side_title_text</item>
         <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">
             @dimen/padding_side_title_text

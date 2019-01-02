@@ -84,7 +84,7 @@ public class PresetValueImageButton extends RelativeLayout implements RadioCheck
             mValue = a.getString(R.styleable.PresetValueButton_presetButtonValueText);
             mUnit = a.getString(R.styleable.PresetValueButton_presetButtonUnitText);
             mValueTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonValueTextColor, resources.getColor(R.color.black));
-            mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.WHITE);
+            mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.BLACK);
             mUnitTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonUnitTextColor, resources.getColor(R.color.gray));
         } finally {
             a.recycle();
@@ -100,8 +100,10 @@ public class PresetValueImageButton extends RelativeLayout implements RadioCheck
 
     protected void inflateView() {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        inflater.inflate(R.layout.custom_preset_button, this, true);
-        mValueImageView = (ImageView) findViewById(R.id.text_view_value);
+        inflater.inflate(R.layout.custom_preset_image_button, this, true);
+        mValueImageView = (ImageView) findViewById(R.id.image_view_value);
+       //
+
         mUnitTextView = (TextView) findViewById(R.id.text_view_unit);
         mInitialBackgroundDrawable = getBackground();
     }
@@ -112,6 +114,20 @@ public class PresetValueImageButton extends RelativeLayout implements RadioCheck
         }
 
         mUnitTextView.setText(mUnit);
+
+        switch (mUnit)
+        {
+            case "Cattle":
+                mValueImageView.setImageResource(R.mipmap.icon_cow);
+                break;
+            case "Sheep":
+                mValueImageView.setImageResource(R.mipmap.icon_lamb);
+                break;
+            case "Camel":
+                mValueImageView.setImageResource(R.mipmap.icon_camel);
+                break;
+
+        }
 
     }
 

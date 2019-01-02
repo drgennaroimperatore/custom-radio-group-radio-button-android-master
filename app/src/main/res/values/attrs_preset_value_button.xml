@@ -6,5 +6,6 @@
         <attr name="presetButtonValueTextColor" format="color"/>
         <attr name="presetButtonPressedTextColor" format="color"/>
         <attr name="presetButtonUnitTextColor" format="color"/>
+        <attr name="presetAnimalType" format="string"/>
     </declare-styleable>
 </resources>
