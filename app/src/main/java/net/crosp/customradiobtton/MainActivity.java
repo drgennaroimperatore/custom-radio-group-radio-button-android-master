@@ -5,9 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     PresetRadioGroup mSetDurationPresetRadioGroup;
     PresetRadioGroup mSetPresetRadioGroup;
+    AnimalAgeSeekBar mAnimalAgeSeekBar;
     final int mIRadioGroupPerPage =5;
 
 
@@ -25,6 +29,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(View radioGroup, View radioButton, boolean isChecked, int checkedId) {
             }});
+
+        mAnimalAgeSeekBar = (AnimalAgeSeekBar) findViewById(R.id.seekbarWithIntervals);
+
+
+        List<String> seekbarIntervals = new ArrayList<String>();
+
+        seekbarIntervals.add("<=6 Months");
+        seekbarIntervals.add("> 6 Months <=1 year");
+        seekbarIntervals.add("> year");
+
+        mAnimalAgeSeekBar.setIntervals(seekbarIntervals);
+
+
     }
 }
 
