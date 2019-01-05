@@ -62,11 +62,18 @@
 
     </net.crosp.customradiobtton.PresetRadioGroup>
 
+    <net.crosp.customradiobtton.AnimalAgeSeekBar
+            android:id="@+id/seekbarWithIntervals"
+            android:layout_below="@id/preset_time_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
     <TextView
             android:id="@+id/textView_symptom_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/preset_time_radio_group"
+            android:layout_below="@+id/seekbarWithIntervals"
 
             android:layout_weight="1"
             style="@style/NameOfChoice"
@@ -158,11 +165,7 @@
 
     </net.crosp.customradiobtton.PresetRadioGroup>
 
-    <net.crosp.customradiobtton.AnimalAgeSeekBar
-            android:id="@+id/seekbarWithIntervals"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+
 
 
 

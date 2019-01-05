@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
         List<String> seekbarIntervals = new ArrayList<String>();
 
-        seekbarIntervals.add("<=6 Months");
-        seekbarIntervals.add("> 6 Months <=1 year");
-        seekbarIntervals.add("> year");
+        seekbarIntervals.add("<=6" + System.getProperty("line.separator") + "Months");
+        seekbarIntervals.add("> 6 Months "
+                + System.getProperty("line.separator")
+                +" <=1 year");
+        seekbarIntervals.add("> 1 year");
 
         mAnimalAgeSeekBar.setIntervals(seekbarIntervals);
 

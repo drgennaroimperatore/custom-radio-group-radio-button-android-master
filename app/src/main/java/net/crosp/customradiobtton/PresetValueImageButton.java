@@ -85,7 +85,7 @@ public class PresetValueImageButton extends RelativeLayout implements RadioCheck
             mUnit = a.getString(R.styleable.PresetValueButton_presetButtonUnitText);
             mValueTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonValueTextColor, resources.getColor(R.color.black));
             mPressedTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonPressedTextColor, Color.BLACK);
-            mUnitTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonUnitTextColor, resources.getColor(R.color.gray));
+            mUnitTextColor = a.getColor(R.styleable.PresetValueButton_presetButtonUnitTextColor, resources.getColor(R.color.white));
         } finally {
             a.recycle();
         }
@@ -104,7 +104,7 @@ public class PresetValueImageButton extends RelativeLayout implements RadioCheck
         mValueImageView = (ImageView) findViewById(R.id.image_view_value);
        //
 
-        mUnitTextView = (TextView) findViewById(R.id.text_view_unit);
+        mUnitTextView = (TextView) findViewById(R.id.image_text_view_unit);
         mInitialBackgroundDrawable = getBackground();
     }
 
