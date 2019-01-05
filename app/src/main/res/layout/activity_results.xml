@@ -7,4 +7,11 @@
                 android:background="@color/black"
                 tools:context="net.crosp.customradiobtton.MainActivity">
 
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/results_page_heading"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/white"
+              android:text="Results"/>
+
 </RelativeLayout>

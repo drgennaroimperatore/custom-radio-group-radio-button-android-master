@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
+import android.widget.Button;
+import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     PresetRadioGroup mSetDurationPresetRadioGroup;
     PresetRadioGroup mSetPresetRadioGroup;
     AnimalAgeSeekBar mAnimalAgeSeekBar;
+    Button mNextPageButton;
     final int mIRadioGroupPerPage =5;
 
 
@@ -43,7 +46,23 @@ public class MainActivity extends AppCompatActivity {
 
         mAnimalAgeSeekBar.setIntervals(seekbarIntervals);
 
+        mNextPageButton =(Button) findViewById(R.id.next_button);
+        mNextPageButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
+                GoToResults();
+
+            }
+        });
+
+
+
+    }
+
+    public void GoToResults()
+    {
+        Intent myIntent = new Intent(this, ResultsActivity.class);
+        startActivity(myIntent);
     }
 }
 
