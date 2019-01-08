@@ -61,7 +61,10 @@ public class CustomPieRenderer extends PieRenderer  {
             float lastOffset = offset;
             float sweep = (float) (scale * (values[i]) * extentDegs);
             offset += sweep;
-            drawSegment(canvas, rec, sfPair.getSeries(), sfPair.getFormatter(), radius, lastOffset,
+            String title = String.valueOf(values[i]) + "%";
+            Segment segment = sfPair.getSeries();
+            segment.setTitle( segment.getTitle() + "(" + title + ")");
+            drawSegment(canvas, rec, segment, sfPair.getFormatter(), radius, lastOffset,
                     sweep);
             i++;
         }
@@ -177,19 +180,58 @@ public class CustomPieRenderer extends PieRenderer  {
         // TODO: so that the labels will not be clipped by the edge of the next
         // TODO: segment being drawn.
         if (f.getLabelPaint() != null) {
+            PointF r1Outer = calculateLineEnd(cx, cy, outerRad, startAngle);
+            PointF r1Inner = calculateLineEnd(cx, cy, innerRad, startAngle);
 
+            PointF r2Inner = calculateLineEnd(cx, cy, innerRad, startAngle + sweep);
+            PointF r2Outer = calculateLineEnd(cx, cy, outerRad, startAngle + sweep);
             Path textPath = new Path();
             textPath.arcTo(new RectF(
-                            cx - outerRad,
+                            (cx - outerRad),
                             cy - outerRad,
                             cx + outerRad,
                             cy + outerRad)
                     , startAngle, sweep);
             textPath.close();
 
-            PointF r2Inner = calculateLineEnd(cx, cy, innerRad, startAngle + sweep);
-            textPath.lineTo(r2Inner.x, r2Inner.y);
-            canvas.drawTextOnPath(seg.getTitle(), textPath, 1.0f,  1.0f, f.getLabelPaint());
+            float xLineEnd = r2Outer.x;
+            float yLineEnd = r2Outer.y-40;
+            int lineSize =60;
+
+            if(startAngle>=0 && startAngle<=180)
+            {
+                xLineEnd = r2Outer.x-lineSize;
+                yLineEnd = r2Outer.y;
+
+            }
+            if(startAngle>180 && startAngle<=270)
+            {
+                xLineEnd = r2Outer.x;
+                yLineEnd = r2Outer.y-lineSize;
+            }
+            if(startAngle>270 && startAngle<=360)
+            {
+                xLineEnd = r2Outer.x+lineSize;
+                yLineEnd = r2Outer.y;
+
+            }
+            Paint p = f.getFillPaint();
+            p.setTextSize(32.0f);
+           String lab= seg.getTitle().split("\\(")[1].replace(")","");
+             canvas.drawText(lab, xLineEnd, yLineEnd, p);
+
+
+            canvas.drawLine(
+                    r2Outer.x, r2Outer.y,
+                      xLineEnd
+                    , yLineEnd
+                    , f.getFillPaint());
+            //textPath.lineTo();
+
+
+
+           // textPath.lineTo(r2Inner.x, r2Inner.y);
+          //  canvas.drawTextOnPath(seg.getTitle(), textPath, 5.0f,  1.0f, f.getLabelPaint());
 
             drawSegmentLabel(canvas, labelOrigin, seg, f);
         }
@@ -200,8 +242,9 @@ public class CustomPieRenderer extends PieRenderer  {
                                     Segment seg, SegmentFormatter f) {
         int lineSize = 70;
 
-       // canvas.drawLine(origin.x, origin.y, origin.x+lineSize, origin.y+lineSize, f.getLabelPaint());
-       // canvas.drawText(seg.getTitle(), origin.x, origin.y, f.getLabelPaint());
+
+       // canvas.drawLine(origin.x, origin.y, origin.x+lineSize, origin.y-lineSize, f.getFillPaint());
+
        // canvas.drawLine(20, 0, 0, 20, paint);
     }
 }
