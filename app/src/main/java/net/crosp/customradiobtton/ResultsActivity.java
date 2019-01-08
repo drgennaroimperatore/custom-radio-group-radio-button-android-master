@@ -24,7 +24,9 @@ import com.androidplot.ui.Size;
 import com.androidplot.ui.SizeMode;
 import com.androidplot.ui.HorizontalPositioning;
 import com.androidplot.ui.VerticalPositioning;
+import android.content.Context;
 
+import net.crosp.customradiobtton.CustomPieSegmentFormatter;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -90,27 +92,27 @@ public class ResultsActivity extends AppCompatActivity {
 
 
 
-        s1 = new Segment("30%", 60);
-        s2 = new Segment("10%", 15);
-        s3 = new Segment("70%", 12);
-        s4 = new Segment("90%", 12);
+        s1 = new Segment("Disease 1", 60);
+        s2 = new Segment("Disease 2", 15);
+        s3 = new Segment("Disease 3", 12);
+        s4 = new Segment("Disease 4", 12);
 
         EmbossMaskFilter emf = new EmbossMaskFilter(
                 new float[]{1, 1, 1}, 0.4f, 10, 8.2f);
 
-        SegmentFormatter sf1 = new SegmentFormatter(this, R.xml.pie_segment_formatter1);
+        CustomPieSegmentFormatter sf1 = new CustomPieSegmentFormatter(this, R.xml.pie_segment_formatter1);
         sf1.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
         sf1.getFillPaint().setMaskFilter(emf);
 
-        SegmentFormatter sf2 = new SegmentFormatter(this, R.xml.pie_segment_formatter2);
+        CustomPieSegmentFormatter sf2 = new CustomPieSegmentFormatter(this, R.xml.pie_segment_formatter2);
         sf2.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
         sf2.getFillPaint().setMaskFilter(emf);
 
-        SegmentFormatter sf3 = new SegmentFormatter(this, R.xml.pie_segment_formatter3);
+        CustomPieSegmentFormatter sf3 = new CustomPieSegmentFormatter(this, R.xml.pie_segment_formatter3);
         sf3.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
         sf3.getFillPaint().setMaskFilter(emf);
 
-        SegmentFormatter sf4 = new SegmentFormatter(this, R.xml.pie_segment_formatter4);
+        CustomPieSegmentFormatter sf4 = new CustomPieSegmentFormatter(this, R.xml.pie_segment_formatter4);
         sf4.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
         sf4.getFillPaint().setMaskFilter(emf);
 
