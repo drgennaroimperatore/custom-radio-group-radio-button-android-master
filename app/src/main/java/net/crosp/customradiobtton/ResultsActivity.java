@@ -11,6 +11,9 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
+
 
 import com.androidplot.pie.PieChart;
 import com.androidplot.pie.PieRenderer;
@@ -42,6 +45,8 @@ public class ResultsActivity extends AppCompatActivity {
     private TextView donutSizeTextView;
     private SeekBar donutSizeSeekBar;
 
+    private ListView mDiseaseListView;
+
     public PieChart pie;
 
     private Segment s1;
@@ -71,18 +76,18 @@ public class ResultsActivity extends AppCompatActivity {
         pie.getLegend().setVisible(true);
         pie.getLegend().setTableModel(new DynamicTableModel(1,4, TableOrder.ROW_MAJOR));
         pie.getLegend().setSize(new Size(
-                PixelUtils.dpToPix(90), SizeMode.ABSOLUTE,
+                PixelUtils.dpToPix(85), SizeMode.ABSOLUTE,
                 PixelUtils.dpToPix(70), SizeMode.ABSOLUTE));
         pie.getLegend().position(
                 0.5f, HorizontalPositioning.RELATIVE_TO_LEFT,
                 0.1f, VerticalPositioning.RELATIVE_TO_TOP);
 
-        final float padding = PixelUtils.dpToPix(25);
+        final float padding = PixelUtils.dpToPix(15);
         pie.getPie().setPadding(padding, padding, padding, padding);
 
         pie.getPie().setSize(new Size(
                 PixelUtils.dpToPix(170), SizeMode.ABSOLUTE,
-                PixelUtils.dpToPix(150), SizeMode.ABSOLUTE));
+                PixelUtils.dpToPix(140), SizeMode.ABSOLUTE));
         pie.getPie().position(
                 0, HorizontalPositioning.RELATIVE_TO_LEFT,
                 0, VerticalPositioning.RELATIVE_TO_TOP);
@@ -123,6 +128,25 @@ public class ResultsActivity extends AppCompatActivity {
 
         pie.getBorderPaint().setColor(Color.TRANSPARENT);
         pie.getBackgroundPaint().setColor(Color.TRANSPARENT);
+
+        mDiseaseListView = (ListView) findViewById(R.id.disease_list_view);
+
+        //todo custom adapter for names of diseases and percentages
+
+        String [] values = new String[]{"Test 1", "Test 2"};
+
+        // Define a new Adapter
+        // First parameter - Context
+        // Second parameter - Layout for the row
+        // Third parameter - ID of the TextView to which the data is written
+        // Fourth - the Array of data
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+               R.layout.disease_list_view_row, R.id.diseaseListTextView, values);
+
+
+        // Assign adapter to ListView
+        mDiseaseListView.setAdapter(adapter);
     }
 
     public void GoToMain()
