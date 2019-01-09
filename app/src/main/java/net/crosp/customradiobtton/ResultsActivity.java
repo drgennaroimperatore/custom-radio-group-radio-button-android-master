@@ -133,7 +133,13 @@ public class ResultsActivity extends AppCompatActivity {
 
         //todo custom adapter for names of diseases and percentages
 
-        String [] values = new String[]{"Test 1", "Test 2"};
+        String [] values = new String[7];
+        for (int d=0; d<7; d++)
+        {
+            values[d]="Disease " + String.valueOf(d+5);
+        }
+
+
 
         // Define a new Adapter
         // First parameter - Context
