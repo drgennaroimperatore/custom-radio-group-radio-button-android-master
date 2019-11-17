@@ -13,6 +13,9 @@ import android.content.Intent;
 import androidx.room.Room;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,46 +35,43 @@ public class MainActivity extends AppCompatActivity {
 
         mADDB= Room.databaseBuilder(this, ADDB.class, "ADDB").allowMainThreadQueries().build();
         ADDBDAO dao = mADDB.getADDBDAO();
+        /*dao.deleteAllAnimals();
+        dao.deleteAllDiseases();
+        dao.deleteAllSigns();
+        dao.deleteAllLikelihoods();
+        dao.deleteAllPriorsDiseases();
+        dao.deleteAllPriorsDiseases();*/
 
-        SimpleSQLiteQuery query = new SimpleSQLiteQuery
-                ("INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(91, ' CATTLE', 'M', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(92, ' CATTLE', 'M', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(93, ' CATTLE', 'M', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(94, ' CATTLE', 'F', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(95, ' CATTLE', 'F', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(96, ' CATTLE', 'F', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(97, ' SHEEP', 'M', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(98, ' SHEEP', 'M', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(99, ' SHEEP', 'M', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(100, ' SHEEP', 'F', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(101, ' SHEEP', 'F', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(102, ' SHEEP', 'F', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(103, ' GOAT', 'M', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(104, ' GOAT', 'M', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(105, ' GOAT', 'M', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(106, ' GOAT', 'F', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(107, ' GOAT', 'F', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(108, ' GOAT', 'F', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(115, ' CAMEL', 'M', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(116, ' CAMEL', 'M', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(117, ' CAMEL', 'M', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(118, ' CAMEL', 'F', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(119, ' CAMEL', 'F', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(120, ' CAMEL', 'F', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(121, ' HORSE_MULE', 'M', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(122, ' HORSE_MULE', 'M', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(123, ' HORSE_MULE', 'M', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(124, ' HORSE_MULE', 'F', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(125, ' HORSE_MULE', 'F', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(126, ' HORSE_MULE', 'F', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(127, ' DONKEY', 'M', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(128, ' DONKEY', 'M', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(129, ' DONKEY', 'M', 'OLD');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(130, ' DONKEY', 'F', 'BABY');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(131, ' DONKEY', 'F', 'YOUNG');\n" +
-                        "INSERT INTO `Animals` (`Id`, `Name`, `Sex`, `Age`) VALUES(132, ' DONKEY', 'F', 'OLD');\n");
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(getAssets().open("query.txt")));
 
-        dao.PopulateAnimals(query);
+            // do reading, usually loop until end of file reading
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                //process line
+
+
+                SimpleSQLiteQuery query = new SimpleSQLiteQuery
+                        (mLine);
+
+                 dao.PopulateAnimals(query);
+
+;            }
+        } catch (IOException e) {
+            //log the exception
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                }
+            }
+        }
+
+
 
 
         mSetDurationPresetRadioGroup = (PresetRadioGroup) findViewById(R.id.preset_time_radio_group);
@@ -100,6 +100,16 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         String t = dao.getAnimalNameFromID(91).get(0);
+
+       // List<String> signs = dao.getAllSignsForAnimal(dao.getAnimalIDFromName("CATTLE").get(0));
+
+        List<Integer> A = dao.TestAnimalsTable();
+        List<String> D = dao.TestDiseasesTable();
+        List<String> S = dao.TestSignsTable();
+        List <Integer> L =dao.TestLikelihoodsTable();
+        List<Integer> PD = dao.TestPriorsDiseasesTable();
+        List<Integer> SC = dao.TestSignCoresTable();
+
         Log.println(1,"Test", "test" );
 
 
