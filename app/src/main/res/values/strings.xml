@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Eddie Mock</string>
+    <string name="app_name">ILRI Diagnoser</string>
     <string name="title_time_preset_30">-</string>
     <string name="unit_seconds">Cattle</string>
     <string name="title_time_preset_120">-</string>

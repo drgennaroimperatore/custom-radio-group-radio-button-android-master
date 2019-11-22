@@ -34,8 +34,10 @@ public interface ADDBDAO {
     @Query("SELECT Name FROM Animals WHERE Id =:Id")
     public List <String> getAnimalNameFromID(int Id);
 
-    @Query("SELECT Animals.Id FROM Animals WHERE Animals.Name= +' '+:name")
+    @Query("SELECT Animals.Id FROM Animals WHERE Animals.Name=:name")
     public List <Integer> getAnimalIDFromName(String name);
+
+
 
     @Query("SELECT Animals.Id FROM Animals")
     public List<Integer> TestAnimalsTable();

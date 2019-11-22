@@ -1,0 +1,8 @@
+<net.crosp.customradiobtton.PresetValueButton
+    android:id="@+id/preset_time_value_button_3"
+    style="@style/PresetLayoutButton"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    app:presetButtonUnitText="Present"
+    app:presetButtonValueText="Fever" />

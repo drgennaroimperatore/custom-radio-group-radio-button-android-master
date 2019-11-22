@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainactivityid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
@@ -19,7 +20,7 @@
     </TextView>
 
     <net.crosp.customradiobtton.PresetRadioGroup
-        android:id="@+id/preset_time_radio_group"
+        android:id="@+id/animal_select_radio_group"
         android:layout_below="@id/textView_type_of_animal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,13 +28,13 @@
         android:layout_margin="3dp"
         android:layout_marginBottom="13dp"
         android:orientation="horizontal"
-        android:weightSum="3"
-        app:presetRadioCheckedId="@+id/preset_time_value_button_60">
+        android:weightSum="6"
+        app:presetRadioCheckedId="@+id/cattle_radio_button">
 
 
 
         <net.crosp.customradiobtton.PresetValueImageButton
-            android:id="@+id/preset_time_value_button_30"
+            android:id="@+id/cattle_radio_button"
             style="@style/PresetLayoutButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,28 +44,65 @@
             />
 
         <net.crosp.customradiobtton.PresetValueImageButton
-            android:id="@+id/preset_time_value_button_60"
+            android:id="@+id/sheep_radio_button"
             style="@style/PresetLayoutButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:presetButtonUnitText="Sheep"
             app:presetButtonValueText="@string/title_time_preset_60" />
-
         <net.crosp.customradiobtton.PresetValueImageButton
-            android:id="@+id/preset_time_value_button_120"
+            android:id="@+id/goat_radio_button"
             style="@style/PresetLayoutButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:presetButtonUnitText="Camel"
+            app:presetButtonUnitText="Goat"
+            app:presetButtonValueText="@string/title_time_preset_60" />
+
+        <net.crosp.customradiobtton.PresetValueImageButton
+        android:id="@+id/camel_radio_button"
+        style="@style/PresetLayoutButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:presetButtonUnitText="Camel"
+        app:presetButtonValueText="@string/title_time_preset_120" />
+
+        <net.crosp.customradiobtton.PresetValueImageButton
+            android:id="@+id/horse_radio_button"
+            style="@style/PresetLayoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:presetButtonUnitText="Horse/Mule"
+            app:presetButtonValueText="@string/title_time_preset_120" />
+        <net.crosp.customradiobtton.PresetValueImageButton
+            android:id="@+id/equid_radio_button"
+            style="@style/PresetLayoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:presetButtonUnitText="Donkey"
             app:presetButtonValueText="@string/title_time_preset_120" />
 
     </net.crosp.customradiobtton.PresetRadioGroup>
 
+    <TextView
+        android:id="@+id/textView_age_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/animal_select_radio_group"
+
+        android:layout_weight="1"
+        style="@style/NameOfChoice"
+
+        android:text="Age">
+    </TextView>
+
     <net.crosp.customradiobtton.AnimalAgeSeekBar
             android:id="@+id/seekbarWithIntervals"
-            android:layout_below="@id/preset_time_radio_group"
+            android:layout_below="@id/textView_age_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"/>
@@ -81,7 +119,26 @@
             android:text="Symptoms">
     </TextView>
 
-    <net.crosp.customradiobtton.PresetRadioGroup
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_symptom_heading"
+        android:layout_above="@+id/next_button"
+        android:id="@+id/signs_scroller">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/signs_container"
+        android:orientation="vertical"
+        >
+
+
+
+
+    </LinearLayout>
+    </ScrollView>
+
+    <!--<net.crosp.customradiobtton.PresetRadioGroup
             android:id="@+id/preset_time_radio_group_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,7 +220,7 @@
                 app:presetButtonUnitText="Not Observed"
                 app:presetButtonValueText="Mouth Ulcer" />
 
-    </net.crosp.customradiobtton.PresetRadioGroup>
+    </net.crosp.customradiobtton.PresetRadioGroup>-->
 
 
 
@@ -174,7 +231,8 @@
              android:layout_height="wrap_content"
              android:layout_alignParentBottom="true"
              android:layout_alignParentRight="true"
-             android:text="Next >">
+             android:text="Diagnose Animal"
+           >
     </Button>
 
 

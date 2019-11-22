@@ -2,7 +2,7 @@
 <resources>
     <dimen name="padding_side_title_text">5dp</dimen>
     <dimen name="padding_top_title_text">10dp</dimen>
-    <dimen name="text_size_time_preset_unit">16sp</dimen>
+    <dimen name="text_size_time_preset_unit">12sp</dimen>
     <dimen name="seekbar_thumb_width">25dp</dimen>
     <dimen name="pie_title_font_size">14dp</dimen>
     <dimen name="pie_segment_label_font_size">12dp</dimen>

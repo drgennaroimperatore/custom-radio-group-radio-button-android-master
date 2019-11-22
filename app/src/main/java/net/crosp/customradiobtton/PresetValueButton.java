@@ -50,11 +50,15 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
         setupView();
     }
 
+
     public PresetValueButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         parseAttributes(attrs);
         setupView();
     }
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public PresetValueButton(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -115,6 +119,8 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
         mValueTextView.setText(mValue);
     }
 
+
+
     //================================================================================
     // Overriding default behavior
     //================================================================================
@@ -169,6 +175,7 @@ public class PresetValueButton extends RelativeLayout implements RadioCheckable 
 
     public void setValue(String value) {
         mValue = value;
+
     }
 
     public String getUnit() {
