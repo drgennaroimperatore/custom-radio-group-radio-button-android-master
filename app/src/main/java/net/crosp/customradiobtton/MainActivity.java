@@ -1,48 +1,32 @@
 package net.crosp.customradiobtton;
 
-import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Xml;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.room.Room;
-import androidx.sqlite.db.SimpleSQLiteQuery;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.widget.Toast.makeText;
 
 public class MainActivity extends AppCompatActivity {
     PresetRadioGroup mAnimalSpeciesSelectGroup;
-    PresetValueImageButton mCattleRadioButton, mSheepRadioButton, mCamelRadioButton, mEquidRadioButton;
+    List<RadioGroup> mSignRadioGroups = new ArrayList<RadioGroup>();
+    List<String> mSignsForAnimal = new ArrayList<>();
     AnimalAgeSeekBar mAnimalAgeSeekBar;
-    Button mNextPageButton;
+    Button diagnoseButton;
     ADDB mADDB;
 
     @Override
@@ -111,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
         //int animalID = dao.getAnimalIDFromName(" CATTLE").get(0);
 
-        populateSignsContainer(signsContainer, dao.getAllSignsForAnimal(91));
+        mSignsForAnimal = dao.getAllSignsForAnimal(91);
+        populateSignsContainer(signsContainer, mSignsForAnimal);
 
 
 
@@ -199,10 +184,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        mNextPageButton =(Button) findViewById(R.id.next_button);
-        mNextPageButton.setOnClickListener(new View.OnClickListener() {
+        diagnoseButton =(Button) findViewById(R.id.diagnose_button);
+        diagnoseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                getSelectedSigns();
                 GoToResults();
 
             }
@@ -212,9 +198,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public HashMap<String, String> getSelectedSigns()
+    {
+        HashMap <String,String> selectedSigns = new HashMap<>();
+
+        int index=0;
+        for(RadioGroup group: mSignRadioGroups)
+        {
+          RadioButton selectedRadioButton = findViewById( group.getCheckedRadioButtonId());
+
+          selectedSigns.put(mSignsForAnimal.get(index), (String)selectedRadioButton.getText());
+          index++;
+
+
+        }
+        return selectedSigns;
+    }
+
     public void populateSignsContainer(LinearLayout signsContainer, List<String> signs)
     {
         int signCounter=0;
+
+        mSignRadioGroups = new ArrayList<>();
+
 
         signsContainer.removeAllViews();
         for(String sign :signs)
@@ -223,23 +229,31 @@ public class MainActivity extends AppCompatActivity {
             label.setText(sign);
             RadioGroup group = new RadioGroup(this);
             group.setOrientation(RadioGroup.HORIZONTAL);
-            RadioButton btn1 = new RadioButton(this);
-            btn1.setText("Present");
-            group.addView(btn1);
-            RadioButton btn2 = new RadioButton(this);
-            group.addView(btn2);
-            btn2.setText("Not Present");
 
-            RadioButton btnN = new RadioButton(this);
-            group.addView(btnN);
-            btnN.setText("Not Observed");
+            RadioButton presentRadioButton = new RadioButton(this);
+            presentRadioButton.setText("Present");
+            group.addView(presentRadioButton);
+
+            RadioButton notPresentRadioButton = new RadioButton(this);
+            group.addView(notPresentRadioButton);
+            notPresentRadioButton.setText("Not Present");
+
+            RadioButton notObservedRadioButton = new RadioButton(this);
+            group.addView(notObservedRadioButton);
+            notObservedRadioButton.setText("Not Observed");
+
+            notObservedRadioButton.setChecked(true);
 
             signsContainer.addView(label);
 
             signsContainer.addView(group);
 
+            mSignRadioGroups.add(group);
+
             signCounter++;
         }
+
+        mSignsForAnimal = signs;
     }
 
     public void GoToResults()
