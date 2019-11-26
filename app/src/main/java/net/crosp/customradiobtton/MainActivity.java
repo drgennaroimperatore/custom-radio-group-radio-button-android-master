@@ -13,18 +13,26 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.room.Index;
 import androidx.room.Room;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static android.widget.Toast.makeText;
 
 public class MainActivity extends AppCompatActivity {
     PresetRadioGroup mAnimalSpeciesSelectGroup;
     List<RadioGroup> mSignRadioGroups = new ArrayList<RadioGroup>();
-    List<String> mSignsForAnimal = new ArrayList<>();
+    List<Signs> mSignsForAnimal = new ArrayList<>();
     AnimalAgeSeekBar mAnimalAgeSeekBar;
     Button diagnoseButton;
     ADDB mADDB;
@@ -95,7 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
         //int animalID = dao.getAnimalIDFromName(" CATTLE").get(0);
 
-        mSignsForAnimal = dao.getAllSignsForAnimal(91);
+
+
+        mSignsForAnimal =dao.getAllSignsForAnimal(91);
         populateSignsContainer(signsContainer, mSignsForAnimal);
 
 
@@ -129,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         
         mAnimalSpeciesSelectGroup.setOnCheckedChangeListener(new PresetRadioGroup.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(View radioGroup, View radioButton, boolean isChecked, int checkedId) {
 
@@ -143,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("ANIMAL SELECTION",value);
 
                 List<Integer> ids = dao.getAnimalIDFromName(" "+value.toUpperCase());
-                List<String> signs = dao.getAllSignsForAnimal(ids.get(0));
+                List<Signs> signs =dao.getAllSignsForAnimal(ids.get(0));
 
                 populateSignsContainer(signsContainer, signs);
 
@@ -189,7 +200,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 getSelectedSigns();
+
+                //Warning!! only works for cattle. FIX!!!
+                diagnoseAnimal(dao,getSelectedSigns(),91,dao.getAllDiseases());
+
                 GoToResults();
+
 
             }
         });
@@ -197,10 +213,140 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    //original code for diagnosis
 
-    public HashMap<String, String> getSelectedSigns()
+    public List<String> getNamesFromSigns(List<Signs> signs)
     {
-        HashMap <String,String> selectedSigns = new HashMap<>();
+        List<String> names = new ArrayList<>();
+        for(Signs sign: signs)
+        {
+            names.add(sign.Name);
+        }
+        return names;
+    }
+
+    public HashMap <String, Float> diagnoseAnimal(ADDBDAO dao, HashMap<Signs, String> selectedSigns, int animalID, List<Diseases> diseases)
+    {
+        HashMap<String, Float> diagnosis = new HashMap<>();
+
+       for(Diseases d:diseases)
+
+       {
+
+           if (!checkIfDiseasesAffectsAnimal(dao, animalID, d.Id))
+               continue;
+
+           float chainProbability = 1.0f;
+           for (Map.Entry selectedSign: selectedSigns.entrySet())
+           {
+               String signPresence = (String)selectedSign.getValue();
+               int signID = ((Signs)selectedSign.getKey()).Id;
+
+               float likelihoodValue = 1.0f; // sign is not observed
+
+               if(signPresence.equals("Present"))
+               {
+
+                   try
+                   {
+
+                       String stringl =  dao.getLikelihoodValue(animalID, signID, d.Id).get(0).Value;
+                       Float floatl =Float.parseFloat( dao.getLikelihoodValue(animalID, signID, d.Id).get(0).Value);
+                   likelihoodValue = Float.parseFloat( dao.getLikelihoodValue(animalID, signID, d.Id).get(0).Value)/100.0f;
+
+
+                   } catch (IndexOutOfBoundsException iob)
+                   {
+                       Log.d("Diagnosis error ", "SignID "+signID+"DiseaseID "+d.Id+ "AnimalID "+animalID );
+                   }
+               }
+
+               if (signPresence.equals("Not Present"))
+               {
+                   try
+                   {
+
+                      String stringl =  dao.getLikelihoodValue(animalID, signID, d.Id).get(0).Value;
+                      Float floatl =Float.parseFloat( dao.getLikelihoodValue(animalID, signID, d.Id).get(0).Value);
+                       likelihoodValue = 1.0f - Float.parseFloat( dao.getLikelihoodValue(animalID, signID, d.Id).get(0).Value)/100.0f;
+
+
+                   } catch (IndexOutOfBoundsException iob)
+                   {
+                       Log.d("Diagnosis error ", "SignID "+signID+"DiseaseID "+d.Id+ "AnimalID "+animalID );
+                   }
+               }
+               chainProbability*=likelihoodValue;
+
+
+           }
+
+
+           float prior = Float.parseFloat(dao.getPriorForDisease(animalID, d.Id).get(0).Probability);
+           float posterior = chainProbability * prior;
+           diagnosis.put(d.Name, posterior*100.0f);
+       }
+
+       diagnosis= normaliseDiagnoses(diagnosis);
+       diagnosis= sortDiagnoses(diagnosis);
+
+        return diagnosis;
+    }
+
+    private boolean checkIfDiseasesAffectsAnimal(ADDBDAO dao, int animalID, int id) {
+        return !dao.getPriorForDisease(animalID,id).isEmpty();
+    }
+
+    public  HashMap<String, Float> normaliseDiagnoses(HashMap <String, Float> originalList)
+    {
+        Float sum =0.0f;
+       for(Map.Entry e : originalList.entrySet())
+       {
+           sum+=(Float) e.getValue();
+       }
+
+        HashMap<String, Float> normalised = new HashMap<>();
+
+        for(Map.Entry e : originalList.entrySet())
+        {
+            Float norm = (Float)e.getValue()/sum;
+            norm*=100.0f;
+            BigDecimal bd = new BigDecimal(Float.toString(norm));
+            bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+            norm= bd.floatValue();
+
+            normalised.put((String)e.getKey(), norm );
+        }
+
+        return normalised;
+    }
+
+    public HashMap<String, Float> sortDiagnoses(HashMap <String, Float> originalList )
+    {
+        List<Map.Entry<String, Float> > list =
+                new LinkedList<Map.Entry<String, Float> >(originalList.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Float> >() {
+            public int compare(Map.Entry<String, Float> o1,
+                               Map.Entry<String, Float> o2)
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+         // put data from sorted list to hashmap
+        HashMap<String, Float> temp = new LinkedHashMap<String, Float>();
+        for (Map.Entry<String, Float> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+
+
+    public HashMap<Signs, String> getSelectedSigns()
+    {
+        HashMap <Signs,String> selectedSigns = new HashMap<>();
 
         int index=0;
         for(RadioGroup group: mSignRadioGroups)
@@ -215,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
         return selectedSigns;
     }
 
-    public void populateSignsContainer(LinearLayout signsContainer, List<String> signs)
+    public void populateSignsContainer(LinearLayout signsContainer, List<Signs> signs)
     {
         int signCounter=0;
 
@@ -223,10 +369,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         signsContainer.removeAllViews();
-        for(String sign :signs)
+        for(Signs sign :signs)
         {
             TextView label = new TextView(this);
-            label.setText(sign);
+            label.setText(sign.Name);
             RadioGroup group = new RadioGroup(this);
             group.setOrientation(RadioGroup.HORIZONTAL);
 
