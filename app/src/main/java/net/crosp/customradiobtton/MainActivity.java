@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
     PresetRadioGroup mAnimalSpeciesSelectGroup;
     List<RadioGroup> mSignRadioGroups = new ArrayList<RadioGroup>();
     List<Signs> mSignsForAnimal = new ArrayList<>();
-    AnimalAgeSeekBar mAnimalAgeSeekBar;
+   // AnimalAgeSeekBar mAnimalAgeSeekBar;
     Button diagnoseButton;
+    int mCurrentAnimalID;
     ADDB mADDB;
 
     @Override
@@ -105,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        mSignsForAnimal =dao.getAllSignsForAnimal(91);
+        mCurrentAnimalID =91;
+        mSignsForAnimal =dao.getAllSignsForAnimal(mCurrentAnimalID);
         populateSignsContainer(signsContainer, mSignsForAnimal);
 
 
@@ -154,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("ANIMAL SELECTION",value);
 
                 List<Integer> ids = dao.getAnimalIDFromName(" "+value.toUpperCase());
-                List<Signs> signs =dao.getAllSignsForAnimal(ids.get(0));
+                mCurrentAnimalID=ids.get(0);
+                List<Signs> signs =dao.getAllSignsForAnimal(mCurrentAnimalID);
 
                 populateSignsContainer(signsContainer, signs);
 
@@ -200,8 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
                 getSelectedSigns();
 
-                //Warning!! only works for cattle. FIX!!!
-                GoToResults(diagnoseAnimal(dao,getSelectedSigns(),91,dao.getAllDiseases()));
+                GoToResults(diagnoseAnimal(dao,getSelectedSigns(),mCurrentAnimalID,dao.getAllDiseases()));
 
 
             }
