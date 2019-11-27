@@ -13,6 +13,9 @@ import com.androidplot.ui.SeriesBundle;
 import com.androidplot.ui.SeriesRenderer;
 import com.androidplot.ui.RenderStack;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class CustomPieRenderer extends PieRenderer  {
 
     private static final float FULL_PIE_DEGS = 360f;
@@ -50,6 +53,17 @@ public class CustomPieRenderer extends PieRenderer  {
         PointF origin = new PointF(plotArea.centerX(), plotArea.centerY());
 
         double[] values = getValues();
+        double [] roundedValues = new double[values.length];
+        int index=0;
+        for(double v :values)
+        {
+            BigDecimal bd = BigDecimal.valueOf(v);
+            bd = bd.setScale(2, RoundingMode.HALF_UP);
+            roundedValues[index] = bd.doubleValue();
+            index++;
+        }
+        values= roundedValues;
+
         double scale = calculateScale(values);
         float offset = degsToScreenDegs(startDegs);
 
@@ -179,7 +193,7 @@ public class CustomPieRenderer extends PieRenderer  {
         // TODO: move segment labelling outside the segment drawing loop
         // TODO: so that the labels will not be clipped by the edge of the next
         // TODO: segment being drawn.
-        if (f.getLabelPaint() != null) {
+       /* if (f.getLabelPaint() != null) {
             PointF r1Outer = calculateLineEnd(cx, cy, outerRad, startAngle);
             PointF r1Inner = calculateLineEnd(cx, cy, innerRad, startAngle);
 
@@ -234,7 +248,7 @@ public class CustomPieRenderer extends PieRenderer  {
           //  canvas.drawTextOnPath(seg.getTitle(), textPath, 5.0f,  1.0f, f.getLabelPaint());
 
             drawSegmentLabel(canvas, labelOrigin, seg, f);
-        }
+        }*/
     }
 
     @Override

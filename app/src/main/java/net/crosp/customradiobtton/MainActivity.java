@@ -202,9 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 getSelectedSigns();
 
                 //Warning!! only works for cattle. FIX!!!
-                diagnoseAnimal(dao,getSelectedSigns(),91,dao.getAllDiseases());
-
-                GoToResults();
+                GoToResults(diagnoseAnimal(dao,getSelectedSigns(),91,dao.getAllDiseases()));
 
 
             }
@@ -287,10 +285,10 @@ public class MainActivity extends AppCompatActivity {
            diagnosis.put(d.Name, posterior*100.0f);
        }
 
-       diagnosis= normaliseDiagnoses(diagnosis);
-       diagnosis= sortDiagnoses(diagnosis);
+       HashMap<String, Float> n = normaliseDiagnoses(diagnosis);
+        HashMap<String, Float> s= sortDiagnoses(n);
 
-        return diagnosis;
+        return s;
     }
 
     private boolean checkIfDiseasesAffectsAnimal(ADDBDAO dao, int animalID, int id) {
@@ -402,9 +400,10 @@ public class MainActivity extends AppCompatActivity {
         mSignsForAnimal = signs;
     }
 
-    public void GoToResults()
+    public void GoToResults(HashMap<String, Float> d)
     {
         Intent myIntent = new Intent(this, ResultsActivity.class);
+        myIntent.putExtra("diagnoses",d );
         startActivity(myIntent);
     }
 }

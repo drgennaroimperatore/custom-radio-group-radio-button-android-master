@@ -33,7 +33,16 @@ import net.crosp.customradiobtton.CustomPieSegmentFormatter;
 
 import android.support.v7.app.AppCompatActivity;
 
-
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class ResultsActivity extends AppCompatActivity {
@@ -49,16 +58,19 @@ public class ResultsActivity extends AppCompatActivity {
 
     public PieChart pie;
 
-    private Segment s1;
-    private Segment s2;
-    private Segment s3;
-    private Segment s4;
+
+
+    private HashMap<String, Float> mDiagnoses = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        //Get the diagnoses from the previous activity
+        mDiagnoses = sortDiagnoses ((HashMap<String, Float>) getIntent().getSerializableExtra("diagnoses"));
+
 
         mPrevButton =(Button) findViewById(R.id.prev_button);
         mPrevButton.setOnClickListener(new View.OnClickListener() {
@@ -97,12 +109,30 @@ public class ResultsActivity extends AppCompatActivity {
 
 
 
-        s1 = new Segment("Disease 1", 60);
-        s2 = new Segment("Disease 2", 15);
-        s3 = new Segment("Disease 3", 12);
-        s4 = new Segment("Disease 4", 12);
 
-        EmbossMaskFilter emf = new EmbossMaskFilter(
+       Set<Map.Entry<String,Float>> entries = mDiagnoses.entrySet();
+
+       int i =0;
+       Float sum =0.0f;
+       Segment [] segments = new Segment[4];
+
+       for(Map.Entry<String, Float> e : entries)
+       {
+           String s =String.format("%.2f", (Float) e.getValue());
+
+           if(i<=2)
+           {
+               segments[i] = new Segment((String) e.getKey(),Float.parseFloat(s) );
+               sum+=e.getValue();
+           }
+           i++;
+       }
+
+        segments[3] =new Segment("Others", 100-sum);
+
+
+
+               EmbossMaskFilter emf = new EmbossMaskFilter(
                 new float[]{1, 1, 1}, 0.4f, 10, 8.2f);
 
         CustomPieSegmentFormatter sf1 = new CustomPieSegmentFormatter(this, R.xml.pie_segment_formatter1);
@@ -121,10 +151,10 @@ public class ResultsActivity extends AppCompatActivity {
         sf4.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
         sf4.getFillPaint().setMaskFilter(emf);
 
-        pie.addSegment(s1, sf1);
-        pie.addSegment(s2, sf2);
-        pie.addSegment(s3, sf3);
-        pie.addSegment(s4, sf4);
+        pie.addSegment(segments[0], sf1);
+        pie.addSegment(segments[1], sf2);
+        pie.addSegment(segments[2], sf3);
+        pie.addSegment(segments[3], sf4);
 
         pie.getBorderPaint().setColor(Color.TRANSPARENT);
         pie.getBackgroundPaint().setColor(Color.TRANSPARENT);
@@ -133,11 +163,19 @@ public class ResultsActivity extends AppCompatActivity {
 
         //todo custom adapter for names of diseases and percentages
 
-        String [] values = new String[7];
-        for (int d=0; d<7; d++)
-        {
-            values[d]="Disease " + String.valueOf(d+5);
-        }
+        int len = mDiagnoses.size()-3;
+        List <DiagnosisListElement> values = new ArrayList<>();
+
+        int j=0;
+       for(Map.Entry<String, Float> e:mDiagnoses.entrySet())
+       {
+           if(j>=3)
+           {
+               DiagnosisListElement dle= new DiagnosisListElement((String) e.getKey(), (Float) e.getValue());
+               values.add(dle);
+           }
+           j++;
+       }
 
 
 
@@ -147,12 +185,39 @@ public class ResultsActivity extends AppCompatActivity {
         // Third parameter - ID of the TextView to which the data is written
         // Fourth - the Array of data
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-               R.layout.disease_list_view_row, R.id.diseaseListTextView, values);
+        DiagnosisListAdapter adapter = new DiagnosisListAdapter(this, (ArrayList<DiagnosisListElement>) values);
 
 
         // Assign adapter to ListView
         mDiseaseListView.setAdapter(adapter);
+    }
+
+    public HashMap<String, Float> sortDiagnoses(HashMap <String, Float> originalList )
+    {
+        List<Map.Entry<String, Float> > list =
+                new LinkedList<Map.Entry<String, Float> >(originalList.entrySet());
+
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Float> >() {
+            public int compare(Map.Entry<String, Float> o1,
+                               Map.Entry<String, Float> o2)
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Float> temp = new LinkedHashMap<String, Float>();
+        for (Map.Entry<String, Float> aa : list) {
+
+
+            BigDecimal bd = new BigDecimal(Float.toString(aa.getValue()));
+            bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+
+            temp.put(aa.getKey(), bd.floatValue());
+        }
+        return temp;
     }
 
     public void GoToMain()
