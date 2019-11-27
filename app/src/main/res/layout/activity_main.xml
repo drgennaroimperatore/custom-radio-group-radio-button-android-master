@@ -88,7 +88,7 @@
 
     </net.crosp.customradiobtton.PresetRadioGroup>
 
-    <TextView
+    <!--<TextView
         android:id="@+id/textView_age_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,13 +105,13 @@
             android:layout_below="@id/textView_age_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"/>-->
 
     <TextView
             android:id="@+id/textView_symptom_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/seekbarWithIntervals"
+            android:layout_below="@+id/animal_select_radio_group"
 
             android:layout_weight="1"
             style="@style/NameOfChoice"
@@ -123,7 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_symptom_heading"
-        android:layout_above="@+id/next_button"
+        android:layout_above="@+id/diagnose_button"
         android:id="@+id/signs_scroller">
     <LinearLayout
         android:layout_width="match_parent"

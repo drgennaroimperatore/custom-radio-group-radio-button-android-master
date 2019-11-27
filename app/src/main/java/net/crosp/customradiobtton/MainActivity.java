@@ -165,8 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        mAnimalAgeSeekBar = (AnimalAgeSeekBar) findViewById(R.id.seekbarWithIntervals);
+      /*  mAnimalAgeSeekBar = (AnimalAgeSeekBar) findViewById(R.id.seekbarWithIntervals);
 
 
         List<String> seekbarIntervals = new ArrayList<String>();
@@ -175,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         seekbarIntervals.add("Young");
         seekbarIntervals.add("Adult");
 
-        mAnimalAgeSeekBar.setIntervals(seekbarIntervals);
+        mAnimalAgeSeekBar.setIntervals(seekbarIntervals);*/
 
 
 
@@ -184,12 +183,12 @@ public class MainActivity extends AppCompatActivity {
 
        // List<String> signs = dao.getAllSignsForAnimal(dao.getAnimalIDFromName("CATTLE").get(0));
 
-        List<Integer> A = dao.TestAnimalsTable();
+       /* List<Integer> A = dao.TestAnimalsTable();
         List<String> D = dao.TestDiseasesTable();
         List<String> S = dao.TestSignsTable();
         List <Integer> L =dao.TestLikelihoodsTable();
         List<Integer> PD = dao.TestPriorsDiseasesTable();
-        List<Integer> SC = dao.TestSignCoresTable();
+        List<Integer> SC = dao.TestSignCoresTable();*/
 
         Log.println(1,"Test", "test" );
 

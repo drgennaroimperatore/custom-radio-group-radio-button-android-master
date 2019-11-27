@@ -44,8 +44,6 @@ public class DiagnosisListAdapter extends ArrayAdapter<DiagnosisListElement> {
         diseasePercTV.setText(String.valueOf(currentDisease.getPercentage() + "%"));
 
 
-
-
         return listItem;
     }
 }
