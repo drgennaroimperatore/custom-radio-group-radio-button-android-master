@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     Button diagnoseButton;
     int mCurrentAnimalID;
     ADDB mADDB;
+    UserInfoDB mUserInfoDB;
+    UserInfoDBDao mUserInfoDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
         app:presetButtonValueText="Fever" />*/
 
      ////////////// END OF REFERENCE CODE
+
+
 
 
         

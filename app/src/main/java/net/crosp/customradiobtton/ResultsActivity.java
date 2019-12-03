@@ -159,6 +159,8 @@ public class ResultsActivity extends AppCompatActivity {
         pie.getBorderPaint().setColor(Color.TRANSPARENT);
         pie.getBackgroundPaint().setColor(Color.TRANSPARENT);
 
+        pie.getRenderer(CustomPieRenderer.class).setStartDegs(180);
+
         mDiseaseListView = (ListView) findViewById(R.id.disease_list_view);
 
         //todo custom adapter for names of diseases and percentages
