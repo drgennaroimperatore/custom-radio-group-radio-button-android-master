@@ -40,7 +40,7 @@
                   android:textColor="@color/white"
                   android:layout_marginBottom="10dp"
                   android:text="Other Diseases"/>
-        <ListView
+        <ExpandableListView
                 android:id="@+id/disease_list_view"
 
 

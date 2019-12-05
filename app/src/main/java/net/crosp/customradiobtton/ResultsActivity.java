@@ -9,6 +9,7 @@ import android.animation.ValueAnimator;
 import android.graphics.*;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.MotionEvent;
+import android.widget.ExpandableListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ListView;
@@ -32,6 +33,7 @@ import android.content.Context;
 import net.crosp.customradiobtton.CustomPieSegmentFormatter;
 
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public class ResultsActivity extends AppCompatActivity {
     private TextView donutSizeTextView;
     private SeekBar donutSizeSeekBar;
 
-    private ListView mDiseaseListView;
+    private ExpandableListView mDiseaseListView;
 
     public PieChart pie;
 
@@ -161,7 +163,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         pie.getRenderer(CustomPieRenderer.class).setStartDegs(180);
 
-        mDiseaseListView = (ListView) findViewById(R.id.disease_list_view);
+        mDiseaseListView = (ExpandableListView) findViewById(R.id.disease_list_view);
 
         //todo custom adapter for names of diseases and percentages
 
@@ -187,11 +189,57 @@ public class ResultsActivity extends AppCompatActivity {
         // Third parameter - ID of the TextView to which the data is written
         // Fourth - the Array of data
 
-        DiagnosisListAdapter adapter = new DiagnosisListAdapter(this, (ArrayList<DiagnosisListElement>) values);
+
+
+       HashMap<String, List<DiagnosisListElement>> listDetail = new HashMap<>();
+       listDetail.put("Disease", values);
+
+
+       ArrayList listTitle = new ArrayList<>(listDetail.keySet());
+
+
+        DiagnosisListAdapter adapter = new DiagnosisListAdapter(this,listTitle ,listDetail);
 
 
         // Assign adapter to ListView
         mDiseaseListView.setAdapter(adapter);
+
+       mDiseaseListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        listTitle.get(groupPosition) + " List Expanded.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mDiseaseListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getApplicationContext(),
+                        listTitle.get(groupPosition) + " List Collapsed.",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        mDiseaseListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        listDetail.get(groupPosition)
+                                + " -> "
+                                + listDetail.get(
+                                listTitle.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+        });
     }
 
     public HashMap<String, Float> sortDiagnoses(HashMap <String, Float> originalList )
