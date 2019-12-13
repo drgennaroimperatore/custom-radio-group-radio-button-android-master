@@ -1,6 +1,7 @@
 package net.crosp.customradiobtton;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.Button;
 import android.content.Intent;
 import android.view.View;
@@ -59,6 +60,7 @@ public class ResultsActivity extends AppCompatActivity {
     private ExpandableListView mDiseaseListView;
 
     public PieChart pie;
+    private PieRenderer mPieRenderer;
 
 
 
@@ -89,7 +91,7 @@ public class ResultsActivity extends AppCompatActivity {
         // enable the legend:
         pie.getLegend().setVisible(true);
         pie.getLegend().setTableModel(new DynamicTableModel(1,4, TableOrder.ROW_MAJOR));
-        pie.getLegend().setSize(new Size(
+       /* pie.getLegend().setSize(new Size(
                 PixelUtils.dpToPix(85), SizeMode.ABSOLUTE,
                 PixelUtils.dpToPix(70), SizeMode.ABSOLUTE));
         pie.getLegend().position(
@@ -104,7 +106,9 @@ public class ResultsActivity extends AppCompatActivity {
                 PixelUtils.dpToPix(140), SizeMode.ABSOLUTE));
         pie.getPie().position(
                 0, HorizontalPositioning.RELATIVE_TO_LEFT,
-                0, VerticalPositioning.RELATIVE_TO_TOP);
+                0, VerticalPositioning.RELATIVE_TO_TOP);*/
+
+      reducePieSize();
 
        // donutSizeTextView = (TextView) findViewById(R.id.donutSizeTextView);
         //updateDonutText();
@@ -153,6 +157,7 @@ public class ResultsActivity extends AppCompatActivity {
         sf4.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
         sf4.getFillPaint().setMaskFilter(emf);
 
+
         pie.addSegment(segments[0], sf1);
         pie.addSegment(segments[1], sf2);
         pie.addSegment(segments[2], sf3);
@@ -160,8 +165,9 @@ public class ResultsActivity extends AppCompatActivity {
 
         pie.getBorderPaint().setColor(Color.TRANSPARENT);
         pie.getBackgroundPaint().setColor(Color.TRANSPARENT);
+        mPieRenderer = pie.getRenderer(CustomPieRenderer.class);
 
-        pie.getRenderer(CustomPieRenderer.class).setStartDegs(180);
+      mPieRenderer.setStartDegs(180);
 
         mDiseaseListView = (ExpandableListView) findViewById(R.id.disease_list_view);
 
@@ -211,6 +217,14 @@ public class ResultsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         listTitle.get(groupPosition) + " List Expanded.",
                         Toast.LENGTH_SHORT).show();
+
+
+
+              // mPieRenderer.setDonutSize(200, PieRenderer.DonutMode.PIXELS);
+               //pie.setTranslationX(3.0f);
+              // pie.setScaleX(2.0f);
+               // pie.redraw();
+
             }
         });
 
@@ -222,6 +236,8 @@ public class ResultsActivity extends AppCompatActivity {
                         listTitle.get(groupPosition) + " List Collapsed.",
                         Toast.LENGTH_SHORT).show();
 
+             mPieRenderer.setDonutSize(1.0f, PieRenderer.DonutMode.PIXELS);
+             // pie.redraw();
             }
         });
 
@@ -240,6 +256,69 @@ public class ResultsActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+
+
+        mDiseaseListView.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
+
+    }
+
+    public void reducePieSize()
+    {
+        pie.getLegend().setSize(new Size(
+                PixelUtils.dpToPix(85), SizeMode.ABSOLUTE,
+                PixelUtils.dpToPix(70), SizeMode.ABSOLUTE));
+        pie.getLegend().position(
+                0.5f, HorizontalPositioning.RELATIVE_TO_LEFT,
+                0.1f, VerticalPositioning.RELATIVE_TO_TOP);
+
+        final float padding = PixelUtils.dpToPix(15);
+        pie.getPie().setPadding(padding, padding, padding, padding);
+
+        pie.getPie().setSize(new Size(
+                PixelUtils.dpToPix(170), SizeMode.ABSOLUTE,
+                PixelUtils.dpToPix(140), SizeMode.ABSOLUTE));
+        pie.getPie().position(
+                0, HorizontalPositioning.RELATIVE_TO_LEFT,
+                0, VerticalPositioning.RELATIVE_TO_TOP);
+
+        pie.refreshDrawableState();
+        pie.redraw();
+
+    }
+
+    public void increasePieSize()
+    {
+        pie.getLegend().setSize(new Size(
+                PixelUtils.dpToPix(85), SizeMode.ABSOLUTE,
+                PixelUtils.dpToPix(70), SizeMode.ABSOLUTE));
+        pie.getLegend().position(
+                0.5f, HorizontalPositioning.RELATIVE_TO_LEFT,
+                0.1f, VerticalPositioning.RELATIVE_TO_TOP);
+
+        final float padding = PixelUtils.dpToPix(15);
+        pie.getPie().setPadding(padding, padding, padding, padding);
+
+        pie.getPie().setSize(new Size(
+                PixelUtils.dpToPix(340), SizeMode.ABSOLUTE,
+                PixelUtils.dpToPix(280), SizeMode.ABSOLUTE));
+        pie.getPie().position(
+                5, HorizontalPositioning.RELATIVE_TO_LEFT,
+                3, VerticalPositioning.RELATIVE_TO_TOP);
+
+        pie.redraw();
+
+    }
+
+
+    public int GetPixelFromDips(float pixels){
+        // Get the screen's density scale
+        final float scale = getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        return (int) (pixels * scale + 0.5f);
     }
 
     public HashMap<String, Float> sortDiagnoses(HashMap <String, Float> originalList )

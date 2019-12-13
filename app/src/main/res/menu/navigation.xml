@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_songs"
+        android:icon="@drawable/stetho"
+        android:title="Diagnose"/>
+
+    <item
+        android:id="@+id/navigation_albums"
+        android:icon="@drawable/folder"
+        android:title="My Cases"/>
+
+    <item
+        android:id="@+id/navigation_artists"
+        android:icon="@drawable/user"
+        android:title="My Profile"/>
+
+</menu>

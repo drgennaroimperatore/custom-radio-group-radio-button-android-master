@@ -1,65 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/black"
-                tools:context="net.crosp.customradiobtton.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/results_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context="net.crosp.customradiobtton.MainActivity"
+    tools:layout_editor_absoluteY="25dp">
 
-
-
-    <com.androidplot.pie.PieChart
-            android:id="@+id/mySimplePieChart"
-            android:layout_width="fill_parent"
-            android:layout_height="500px"
-            android:layout_weight="1"
-            android:layout_alignParentLeft="true"
-            androidPlot.title.text="Most Likely Diseases"
-            androidPlot.title.labelPaint.textSize="@dimen/pie_title_font_size"/>
-    <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_gravity="left"
-            android:orientation="horizontal">
-
-
-
-    </LinearLayout>
 
     <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_below="@id/mySimplePieChart"
-            android:layout_gravity="left"
-            android:orientation="vertical">
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:id="@+id/results_page_heading"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/white"
-                  android:layout_marginBottom="10dp"
-                  android:text="Other Diseases"/>
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="617dp"
+        android:layout_below="@id/mySimplePieChart"
+
+
+        android:layout_alignParentBottom="false"
+        android:layout_gravity="right"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/navigationView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.695"
+        tools:layout_editor_absoluteX="1dp">
+
+
         <ExpandableListView
-                android:id="@+id/disease_list_view"
+            android:id="@+id/disease_list_view"
 
+            android:layout_width="392dp"
+            android:layout_height="274dp"
 
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
+            android:groupIndicator="@drawable/group_indicator"
+            tools:layout_editor_absoluteX="5dp"
+            tools:layout_editor_absoluteY="267dp">
 
+            <com.androidplot.pie.PieChart
+                android:id="@+id/mySimplePieChart"
+                androidPlot.title.labelPaint.textSize="@dimen/pie_title_font_size"
+                androidPlot.title.text="Most Likely Diseases"
+                android:layout_width="411dp"
+                android:layout_height="215dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="1"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="16dp" />
+        </ExpandableListView>
 
+        <Button
+            android:id="@+id/prev_button"
+            android:layout_width="89dp"
+            android:layout_height="42dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="0dp"
 
+            android:layout_marginBottom="0dp"
+            android:text="&lt; Prev"
+            tools:layout_editor_absoluteX="313dp"
+            tools:layout_editor_absoluteY="530dp"></Button>
     </LinearLayout>
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_below="@+id/diagnose_button"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-61dp"
 
-
-
-    <Button  android:id="@+id/prev_button"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentBottom="true"
-             android:layout_alignParentLeft="true"
-             android:text="&lt; Prev">
-    </Button>
-
+        android:layout_marginEnd="0dp"
+        android:background="@color/black"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
 </RelativeLayout>
