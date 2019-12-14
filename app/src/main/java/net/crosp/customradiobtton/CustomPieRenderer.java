@@ -77,7 +77,7 @@ public class CustomPieRenderer extends PieRenderer  {
             offset += sweep;
             String title = String.valueOf(values[i]) + "%";
             Segment segment = sfPair.getSeries();
-            segment.setTitle( segment.getTitle() + "(" + title + ")");
+            segment.setTitle( segment.getTitle() + " (" + title + ")");
             drawSegment(canvas, rec, segment, sfPair.getFormatter(), radius, lastOffset,
                     sweep);
             i++;

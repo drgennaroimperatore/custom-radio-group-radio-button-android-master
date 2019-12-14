@@ -269,11 +269,13 @@ public class ResultsActivity extends AppCompatActivity {
     public void reducePieSize()
     {
         pie.getLegend().setSize(new Size(
-                PixelUtils.dpToPix(85), SizeMode.ABSOLUTE,
+                PixelUtils.dpToPix(80), SizeMode.ABSOLUTE,
                 PixelUtils.dpToPix(70), SizeMode.ABSOLUTE));
         pie.getLegend().position(
-                0.5f, HorizontalPositioning.RELATIVE_TO_LEFT,
-                0.1f, VerticalPositioning.RELATIVE_TO_TOP);
+                0.35f, HorizontalPositioning.RELATIVE_TO_LEFT,
+                0.2f, VerticalPositioning.RELATIVE_TO_TOP);
+        pie.getLegend().getTextPaint().setTextSize(38.0f);
+
 
         final float padding = PixelUtils.dpToPix(15);
         pie.getPie().setPadding(padding, padding, padding, padding);
@@ -290,28 +292,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     }
 
-    public void increasePieSize()
-    {
-        pie.getLegend().setSize(new Size(
-                PixelUtils.dpToPix(85), SizeMode.ABSOLUTE,
-                PixelUtils.dpToPix(70), SizeMode.ABSOLUTE));
-        pie.getLegend().position(
-                0.5f, HorizontalPositioning.RELATIVE_TO_LEFT,
-                0.1f, VerticalPositioning.RELATIVE_TO_TOP);
 
-        final float padding = PixelUtils.dpToPix(15);
-        pie.getPie().setPadding(padding, padding, padding, padding);
-
-        pie.getPie().setSize(new Size(
-                PixelUtils.dpToPix(340), SizeMode.ABSOLUTE,
-                PixelUtils.dpToPix(280), SizeMode.ABSOLUTE));
-        pie.getPie().position(
-                5, HorizontalPositioning.RELATIVE_TO_LEFT,
-                3, VerticalPositioning.RELATIVE_TO_TOP);
-
-        pie.redraw();
-
-    }
 
 
     public int GetPixelFromDips(float pixels){
