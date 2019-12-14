@@ -12,6 +12,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.MotionEvent;
 import android.widget.ExpandableListView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
@@ -50,21 +51,19 @@ import java.util.Set;
 
 public class ResultsActivity extends AppCompatActivity {
 
-    Button mPrevButton;
+    Button mPrevButton, mGoToLogCaseButton;
 
     public static final int SELECTED_SEGMENT_OFFSET = 150;
-
-    private TextView donutSizeTextView;
-    private SeekBar donutSizeSeekBar;
 
     private ExpandableListView mDiseaseListView;
 
     public PieChart pie;
     private PieRenderer mPieRenderer;
 
-
-
+    private String mSpecies;
     private HashMap<String, Float> mDiagnoses = new HashMap<>();
+    private HashMap<String, String> mSigns = new HashMap<>();
+    private String mMostLikelyDiagnosis;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -74,14 +73,23 @@ public class ResultsActivity extends AppCompatActivity {
 
         //Get the diagnoses from the previous activity
         mDiagnoses = sortDiagnoses ((HashMap<String, Float>) getIntent().getSerializableExtra("diagnoses"));
+        mSigns = (HashMap<String, String>) getIntent().getSerializableExtra("signs");
+        mSpecies = getIntent().getStringExtra("species");
 
 
         mPrevButton =(Button) findViewById(R.id.prev_button);
+
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 GoToMain();
+            }
+        });
 
+        mGoToLogCaseButton = (Button) findViewById(R.id.go_to_LogCase_button);
+        mGoToLogCaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GoToLogCase();
             }
         });
 
@@ -126,6 +134,9 @@ public class ResultsActivity extends AppCompatActivity {
        {
            String s =String.format("%.2f", (Float) e.getValue());
 
+           if(i==0)
+               mMostLikelyDiagnosis= e.getKey();
+
            if(i<=2)
            {
                segments[i] = new Segment((String) e.getKey(),Float.parseFloat(s) );
@@ -134,12 +145,12 @@ public class ResultsActivity extends AppCompatActivity {
            i++;
        }
 
-        segments[3] =new Segment("Others", 100-sum);
+        segments[3] =new Segment("Less Likely Diagnoses", 100-sum);
 
 
 
                EmbossMaskFilter emf = new EmbossMaskFilter(
-                new float[]{1, 1, 1}, 0.4f, 10, 8.2f);
+                new float[]{1, 1, 1}, 0.4f, 10, 9.2f);
 
         CustomPieSegmentFormatter sf1 = new CustomPieSegmentFormatter(this, R.xml.pie_segment_formatter1);
         sf1.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
@@ -154,8 +165,9 @@ public class ResultsActivity extends AppCompatActivity {
         sf3.getFillPaint().setMaskFilter(emf);
 
         CustomPieSegmentFormatter sf4 = new CustomPieSegmentFormatter(this, R.xml.pie_segment_formatter4);
-        sf4.getLabelPaint().setShadowLayer(3, 0, 0, Color.BLACK);
+        sf4.getLabelPaint().setShadowLayer(3, 0, 0, Color.WHITE);
         sf4.getFillPaint().setMaskFilter(emf);
+        sf4.getFillPaint().setColor(Color.DKGRAY);
 
 
         pie.addSegment(segments[0], sf1);
@@ -264,6 +276,9 @@ public class ResultsActivity extends AppCompatActivity {
 
         mDiseaseListView.setIndicatorBounds(width - GetPixelFromDips(50), width - GetPixelFromDips(10));
 
+
+
+
     }
 
     public void reducePieSize()
@@ -334,6 +349,16 @@ public class ResultsActivity extends AppCompatActivity {
     {
         Intent myIntent = new Intent(this, MainActivity.class);
         startActivity(myIntent);
+    }
+
+    public void GoToLogCase()
+    {
+        Intent intent = new Intent(this, LogCaseActivity.class);
+        intent.putExtra("diagnoses",mDiagnoses);
+        intent.putExtra("signs", mSigns);
+        intent.putExtra("species",mSpecies);
+        intent.putExtra("mostLikelyDiagnosis", mMostLikelyDiagnosis);
+        startActivity(intent);
     }
 
 

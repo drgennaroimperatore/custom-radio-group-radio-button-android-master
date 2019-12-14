@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogCaseActivity">
+
+    <TextView
+        android:id="@+id/log_case_header"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log the Case"
+        style="@style/HeaderStyle"/>
+
+    <TableLayout
+        android:id="@+id/case_review_table"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/log_case_header"
+        android:stretchColumns="0,1,2">
+        <TableRow android:layout_width="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SubHeaderStyle"
+                android:text="Case Review">
+            </TextView>
+        </TableRow>
+
+        <TableRow android:layout_width="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SmallHeaderStyle"
+                android:textColor="@color/white"
+                android:text="Species">
+            </TextView>
+
+            <TextView
+                android:id="@+id/case_review_species"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Cattle">
+            </TextView>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SmallHeaderStyle"
+                android:text="Present Signs">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SmallHeaderStyle"
+                android:text="Not Present Signs">
+            </TextView>
+        </TableRow>
+
+        <TableRow>
+            <ListView
+                android:id="@+id/present_signs_reviewList"
+                android:layout_height="wrap_content"></ListView>
+
+            <ListView
+                android:id="@+id/not_present_signs_reviewList"
+                android:layout_height="wrap_content"></ListView>
+        </TableRow>
+
+
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/SmallHeaderStyle"
+                android:text="App Predicted Diagnosis">
+            </TextView>
+
+            <TextView
+                android:id="@+id/case_review_most_likely_diagnosis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diagnosis 1">
+            </TextView>
+        </TableRow>
+
+    </TableLayout>
+
+    <EditText
+        android:id="@+id/case_date_editText"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/case_review_table"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="dd/mm/yyyy"
+        android:inputType="date" />
+    <TextView
+        android:id="@+id/case_observed_label"
+        android:layout_toRightOf="@id/case_date_editText"
+        android:layout_alignBaseline="@id/case_date_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SubHeaderStyle"
+        android:text="Case Date" />
+
+    <TextView
+        android:id="@+id/chosen_diagnosis_spinner_label"
+        android:layout_below="@id/case_date_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SubHeaderStyle"
+        android:text="Diagnosis" />
+
+    <Spinner
+        android:id="@+id/chosen_diagnosis_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chosen_diagnosis_spinner_label"
+
+        android:popupBackground="@color/colorPrimary"
+        android:background="@color/colorPrimary"
+
+        />
+
+    <TextView
+        android:id="@+id/chosen_region_spinner_label"
+        android:layout_below="@id/chosen_diagnosis_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SubHeaderStyle"
+        android:text="Region" />
+
+    <Spinner
+        android:id="@+id/chosen_region_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chosen_region_spinner_label"
+
+        android:popupBackground="@color/colorPrimary"
+        android:background="@color/colorPrimary"
+
+        />
+
+    <TextView
+        android:id="@+id/log_case_comments_label"
+        android:layout_below="@id/chosen_region_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SubHeaderStyle"
+        android:text="Comments" />
+
+    <EditText
+        android:id="@+id/log_case_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/log_case_comments_label"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
+
+
+
+
+
+    <Button
+        android:id="@+id/back_to_results_button"
+        android:layout_width="89dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="0dp"
+        android:textColor="@color/black"
+        android:background="@color/colorPrimary"
+
+        android:layout_marginBottom="0dp"
+        android:text="&lt; Cancel"
+        tools:layout_editor_absoluteX="313dp"
+        tools:layout_editor_absoluteY="530dp"></Button>
+
+    <Button
+        android:id="@+id/logCase_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/black"
+        android:background="@color/colorPrimary"
+
+        android:text="Submit Case" />
+
+
+
+
+</RelativeLayout>

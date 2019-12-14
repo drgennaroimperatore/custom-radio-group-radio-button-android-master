@@ -9,13 +9,24 @@
     tools:context="net.crosp.customradiobtton.MainActivity">
 
     <TextView
+        android:id="@+id/textView_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentTop="true"
+        android:layout_weight="1"
+        style="@style/HeaderStyle"
+        android:text="Diagnose An Animal">
+    </TextView>
+
+    <TextView
             android:id="@+id/textView_type_of_animal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_alignParentTop="true"
+            android:layout_below="@id/textView_heading"
             android:layout_weight="1"
-            style="@style/NameOfChoice"
+            style="@style/SubHeaderStyle"
             android:text="Type of Animal">
     </TextView>
 
@@ -114,9 +125,9 @@
             android:layout_below="@+id/animal_select_radio_group"
 
             android:layout_weight="1"
-            style="@style/NameOfChoice"
+            style="@style/SubHeaderStyle"
 
-            android:text="Symptoms">
+            android:text="Signs">
     </TextView>
 
     <ScrollView
@@ -150,6 +161,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="65dp"
+        android:textColor="@color/black"
+        android:background="@color/colorPrimary"
         android:text="Diagnose Animal"></Button>
 
 

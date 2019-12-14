@@ -364,6 +364,23 @@ public class MainActivity extends AppCompatActivity {
         return selectedSigns;
     }
 
+    public HashMap<String, String> getSelectedSignsStrings()
+    {
+        HashMap <String,String> selectedSigns = new HashMap<>();
+
+        int index=0;
+        for(RadioGroup group: mSignRadioGroups)
+        {
+            RadioButton selectedRadioButton = findViewById( group.getCheckedRadioButtonId());
+
+            selectedSigns.put(mSignsForAnimal.get(index).Name, (String)selectedRadioButton.getText());
+            index++;
+
+
+        }
+        return selectedSigns;
+    }
+
     public void populateSignsContainer(LinearLayout signsContainer, List<Signs> signs)
     {
         int signCounter=0;
@@ -408,7 +425,10 @@ public class MainActivity extends AppCompatActivity {
     public void GoToResults(HashMap<String, Float> d)
     {
         Intent myIntent = new Intent(this, ResultsActivity.class);
+        myIntent.putExtra("species", mADDB.getADDBDAO().getAnimalNameFromID(mCurrentAnimalID).get(0));
+        myIntent.putExtra("signs",getSelectedSignsStrings());
         myIntent.putExtra("diagnoses",d );
+
         startActivity(myIntent);
     }
 }
