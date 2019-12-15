@@ -74,6 +74,7 @@ public class RegistrationActivity extends AppCompatActivity {
     {
         Intent myIntent = new Intent(this, MainActivity.class);
         startActivity(myIntent);
+        finish();
     }
 
     public boolean isRegistrationComplete()

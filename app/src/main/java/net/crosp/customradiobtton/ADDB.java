@@ -1,9 +1,12 @@
 package net.crosp.customradiobtton;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
+import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
@@ -18,6 +21,8 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 public abstract class ADDB extends RoomDatabase {
    ADDBDAO mADDBDAO;
 
+   private static ADDB mInstance;
+
     @NonNull
     @Override
     protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration config) {
@@ -29,6 +34,18 @@ public abstract class ADDB extends RoomDatabase {
     protected InvalidationTracker createInvalidationTracker() {
         return null;
     }
+
+    public static ADDB getInstance (Context context)
+    {
+        if(mInstance==null)
+        {
+            mInstance = Room.databaseBuilder(context, ADDB.class, "ADDB").allowMainThreadQueries().build();
+        }
+
+        return mInstance;
+    }
+
+    public static void destroyInstance() {mInstance = null;}
 
     @Override
     public void clearAllTables() {

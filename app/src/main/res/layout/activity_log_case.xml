@@ -16,10 +16,10 @@
 
     <TableLayout
         android:id="@+id/case_review_table"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/log_case_header"
-        android:stretchColumns="0,1,2">
+        android:stretchColumns="*">
         <TableRow android:layout_width="match_parent">
             <TextView
                 android:layout_width="wrap_content"
@@ -52,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/SmallHeaderStyle"
+                android:layout_column="0"
                 android:text="Present Signs">
             </TextView>
 
@@ -59,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/SmallHeaderStyle"
+                android:layout_column="1"
                 android:text="Not Present Signs">
             </TextView>
         </TableRow>
@@ -66,11 +68,13 @@
         <TableRow>
             <ListView
                 android:id="@+id/present_signs_reviewList"
-                android:layout_height="wrap_content"></ListView>
+                android:layout_height="wrap_content"
+                android:layout_column="0"></ListView>
 
             <ListView
                 android:id="@+id/not_present_signs_reviewList"
-                android:layout_height="wrap_content"></ListView>
+                android:layout_height="wrap_content"
+                android:layout_column="1"></ListView>
         </TableRow>
 
 
