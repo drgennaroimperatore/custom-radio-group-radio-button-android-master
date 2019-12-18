@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/case_number_header"
+        style="@style/ExtraSmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Case #"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/case_list_case_nr_tv"
+        style="@style/ExtraSmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/case_number_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/case_list_animal_header"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="44dp"
+        android:text="Species"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/case_list_animal_name_tv"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="44dp"
+        android:text="Cattle"
+        app:layout_constraintEnd_toStartOf="@+id/case_list_date_observed_header"
+        app:layout_constraintStart_toEndOf="@+id/case_list_animal_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/case_list_date_logged_header"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="188dp"
+
+        android:layout_marginLeft="188dp"
+        android:layout_marginTop="8dp"
+        android:text="Date Logged"
+        app:layout_constraintBottom_toTopOf="@+id/case_list_date_observed_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/case_list_date_observed_header"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="188dp"
+        android:layout_marginLeft="188dp"
+        android:layout_marginTop="44dp"
+        android:text="Date Observed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/case_list_date_observed_tv"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="dd/mm/YYYY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.741"
+        app:layout_constraintStart_toEndOf="@+id/case_list_date_logged_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/case_list_date_logged_tv"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="dd/mm/YYYY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/case_list_date_observed_header"
+        app:layout_constraintTop_toBottomOf="@+id/case_list_date_observed_tv" />
+
+    <TextView
+        android:id="@+id/case_list_user_disease_header"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="16dp"
+        android:text="Your Diagnosis"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/case_list_animal_header" />
+
+    <TextView
+        android:id="@+id/case_list_user_disease_tv"
+        style="@style/SmallHeaderStyleBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="80dp"
+        android:text="Disease 1"
+        app:layout_constraintStart_toEndOf="@+id/case_list_user_disease_header"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/case_list_more_info_image_button"
+        android:layout_width="43dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginLeft="216dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/case_list_date_observed_header"
+        app:srcCompat="@drawable/zoom" />
+
+    <ImageView
+        android:id="@+id/case_list_delete_case_image_button"
+        android:layout_width="43dp"
+        android:layout_height="34dp"
+
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintStart_toEndOf="@+id/case_list_more_info_image_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/bin" />
+
+</android.support.constraint.ConstraintLayout>

@@ -10,23 +10,6 @@
     tools:layout_editor_absoluteY="25dp">
 
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigationView_results"
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_below="@+id/linearLayout"
-
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="9dp"
-
-        android:layout_marginEnd="0dp"
-        android:background="@color/black"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-
-
-        app:menu="@menu/navigation" />
 
     <com.androidplot.pie.PieChart
         android:id="@+id/mySimplePieChart"
@@ -44,7 +27,7 @@
     <RelativeLayout
         android:id="@+id/linearLayout"
         android:layout_width="399dp"
-        android:layout_height="337dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/mySimplePieChart"
 
 

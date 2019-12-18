@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_songs"
+        android:id="@+id/navigation_diagnoser"
         android:icon="@drawable/stetho"
         android:title="Diagnoser"/>
 
     <item
-        android:id="@+id/navigation_albums"
+        android:id="@+id/navigation_my_cases"
         android:icon="@drawable/folder"
         android:title="My Cases"/>
 
     <item
-        android:id="@+id/navigation_artists"
+        android:id="@+id/navigation_profile"
         android:icon="@drawable/user"
         android:title="My Profile"/>
 

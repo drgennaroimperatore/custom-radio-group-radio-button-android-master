@@ -136,11 +136,13 @@ public class LogCaseActivity extends AppCompatActivity {
 
         ArrayAdapter<String> diagnosisSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item,chosenDiseaseSpinnerList);
         mChosenDiseaseSpinner.setAdapter(diagnosisSpinnerAdapter);
+       int indexOfPredictedDisease = chosenDiseaseSpinnerList.indexOf(mPredictedDiagnosisTV.getText().toString());
+        mChosenDiseaseSpinner.setSelection(indexOfPredictedDisease);
 
         ArrayAdapter<String> regionSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item, REGIONS_OF_ETHIOPIA);
         mChosenRegionSpinner.setAdapter(regionSpinnerAdapter);
 
-        mCasesDB = Room.databaseBuilder(this, CasesDB.class, "CasesDB").allowMainThreadQueries().build();
+        mCasesDB = CasesDB.getInstance(this);
         mCasesDBDAO = mCasesDB.getmCasesDBDAO();
     }
 

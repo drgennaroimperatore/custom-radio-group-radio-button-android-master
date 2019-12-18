@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainactivityid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:orientation="vertical"
-    tools:context="net.crosp.customradiobtton.MainActivity">
+    tools:context=".DiagnoserFragment">
 
-    <FrameLayout android:name="net.crosp.customradiobtton.DiagnoserFragment"
-        android:id="@+id/main_fragment"
-        android:layout_weight="10"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
 
-    <fragment android:name="net.crosp.customradiobtton.NavigationFragment"
-        android:id="@+id/navigation_fragment"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
-<!--
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        tools:context="net.crosp.customradiobtton.MainActivity">
 
     <TextView
         android:id="@+id/textView_heading"
@@ -34,14 +26,14 @@
     </TextView>
 
     <TextView
-            android:id="@+id/textView_type_of_animal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        android:id="@+id/textView_type_of_animal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-            android:layout_below="@id/textView_heading"
-            android:layout_weight="1"
-            style="@style/SubHeaderStyle"
-            android:text="Type of Animal">
+        android:layout_below="@id/textView_heading"
+        android:layout_weight="1"
+        style="@style/SubHeaderStyle"
+        android:text="Type of Animal">
     </TextView>
 
     <net.crosp.customradiobtton.PresetRadioGroup
@@ -86,13 +78,13 @@
             app:presetButtonValueText="@string/title_time_preset_60" />
 
         <net.crosp.customradiobtton.PresetValueImageButton
-        android:id="@+id/camel_radio_button"
-        style="@style/PresetLayoutButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:presetButtonUnitText="Camel"
-        app:presetButtonValueText="@string/title_time_preset_120" />
+            android:id="@+id/camel_radio_button"
+            style="@style/PresetLayoutButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:presetButtonUnitText="Camel"
+            app:presetButtonValueText="@string/title_time_preset_120" />
 
         <net.crosp.customradiobtton.PresetValueImageButton
             android:id="@+id/horse_radio_button"
@@ -113,7 +105,7 @@
 
     </net.crosp.customradiobtton.PresetRadioGroup>
 
-    &lt;!&ndash;<TextView
+    <!--<TextView
         android:id="@+id/textView_age_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,18 +122,18 @@
             android:layout_below="@id/textView_age_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>&ndash;&gt;
+            android:layout_centerInParent="true"/>-->
 
     <TextView
-            android:id="@+id/textView_symptom_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/animal_select_radio_group"
+        android:id="@+id/textView_symptom_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/animal_select_radio_group"
 
-            android:layout_weight="1"
-            style="@style/SubHeaderStyle"
+        android:layout_weight="1"
+        style="@style/SubHeaderStyle"
 
-            android:text="Signs">
+        android:text="Signs">
     </TextView>
 
     <ScrollView
@@ -173,14 +165,13 @@
         android:layout_height="36dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="65dp"
+
         android:textColor="@color/black"
         android:background="@color/colorPrimary"
         android:text="Diagnose Animal"></Button>
 
 
-    &lt;!&ndash;<net.crosp.customradiobtton.PresetRadioGroup
+    <!--<net.crosp.customradiobtton.PresetRadioGroup
             android:id="@+id/preset_time_radio_group_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -262,33 +253,7 @@
                 app:presetButtonUnitText="Not Observed"
                 app:presetButtonValueText="Mouth Ulcer" />
 
-    </net.crosp.customradiobtton.PresetRadioGroup>&ndash;&gt;
+    </net.crosp.customradiobtton.PresetRadioGroup>-->
+    </RelativeLayout>
 
-
-
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_below="@+id/diagnose_button"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-61dp"
-
-        android:layout_marginEnd="0dp"
-        android:background="@color/black"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
-
-
--->
-
-</LinearLayout>
-
-
-
+</FrameLayout>

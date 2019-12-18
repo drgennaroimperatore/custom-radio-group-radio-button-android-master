@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity
 public class Cases
 {
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
     public int ID;
     public String UserUUID;
     public int AnimalID;
@@ -19,5 +19,6 @@ public class Cases
     public int DiseaseChosenByUserID;
     public String Region,District,Woreda;
     public String Comments;
+    public String FarmerName;
 
 }

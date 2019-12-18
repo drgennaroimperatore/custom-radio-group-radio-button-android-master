@@ -43,6 +43,8 @@ public interface ADDBDAO {
     @Query("SELECT * FROM Diseases")
     List<Diseases> getAllDiseases();
 
+    @Query("SELECT Diseases.Name FROM Diseases WHERE Diseases.Id=:id")
+    List<String> getDiseaseNameFromId(int id);
 
     @Query("SELECT Animals.Id FROM Animals")
     public List<Integer> TestAnimalsTable();
