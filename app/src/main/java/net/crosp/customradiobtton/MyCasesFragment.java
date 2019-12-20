@@ -85,7 +85,7 @@ public class MyCasesFragment extends Fragment  {
 
         ArrayList cases = new ArrayList(casesDBDAO.getAllCases());
 
-        CasesListAdapter myCasesListAdapter = new CasesListAdapter(getContext(), R.layout.cases_list_row, cases);
+        CasesListAdapter myCasesListAdapter = new CasesListAdapter(getContext(), R.layout.cases_list_row, cases, this);
 
         mCasesListView = getView().findViewById(R.id.my_cases_list_view);
         mCasesListView.setAdapter(myCasesListAdapter);
@@ -129,4 +129,12 @@ public class MyCasesFragment extends Fragment  {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void showCaseInfo(int caseId)
+    {
+        CaseInfoDialog dialog = new CaseInfoDialog(getContext());
+        dialog.show();
+    }
+
+
 }

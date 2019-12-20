@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,10 +20,13 @@ import java.util.ArrayList;
 public class CasesListAdapter extends ArrayAdapter<Cases> {
     int mResource;
     Context mContext;
-    public CasesListAdapter(@NonNull Context context,  int resource, ArrayList<Cases> list) {
+    MyCasesFragment mMyCasesFragment;
+    public CasesListAdapter(@NonNull Context context,  int resource, ArrayList<Cases> list, MyCasesFragment mcf) {
         super(context, resource,list);
         mResource= resource;
         mContext = context;
+        mMyCasesFragment=mcf;
+
     }
 
     @NonNull
@@ -60,6 +65,14 @@ public class CasesListAdapter extends ArrayAdapter<Cases> {
         {
 
         }
+
+        ImageView caseInfoImageButton = v.findViewById(R.id.case_list_more_info_image_button);
+        caseInfoImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               mMyCasesFragment.showCaseInfo(c.ID);
+            }
+        });
 
      /*   TextView userChosenDiseaseTV = v.findViewById(R.id.case_list_user_disease_tv);
         String diseaseChosenByUser =addbdao.getDiseaseNameFromId(c.DiseaseChosenByUserID).get(0);

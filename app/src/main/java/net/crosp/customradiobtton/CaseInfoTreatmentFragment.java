@@ -3,24 +3,21 @@ package net.crosp.customradiobtton;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProfileFragment.OnFragmentInteractionListener} interface
+ * {@link CaseInfoTreatmentFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link CaseInfoTreatmentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class CaseInfoTreatmentFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,11 +27,9 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextView mUserUUIDTV, mNrCasesTV, mUserNameTV;
-
     private OnFragmentInteractionListener mListener;
 
-    public ProfileFragment() {
+    public CaseInfoTreatmentFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +39,11 @@ public class ProfileFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
+     * @return A new instance of fragment CaseInfoTreatmentFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
+    public static CaseInfoTreatmentFragment newInstance(String param1, String param2) {
+        CaseInfoTreatmentFragment fragment = new CaseInfoTreatmentFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,7 +64,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return inflater.inflate(R.layout.fragment_case_info_treatment, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -88,31 +83,6 @@ public class ProfileFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        UserInfoDB uidb = UserInfoDB.getInstance(getContext());
-        UserInfoDBDao userInfoDBDao= uidb.getDao();
-
-        CasesDB cdb = CasesDB.getInstance(getContext());
-        CasesDBDAO cdbDao = cdb.getmCasesDBDAO();
-        String casesCount = (String.valueOf( cdbDao.getAllCases().size()));
-
-        mUserNameTV = getView().findViewById(R.id.profile_user_name_tv);
-        mUserNameTV.setText(userInfoDBDao.getUserInfo().get(0).FirstName +" " + userInfoDBDao.getUserInfo().get(0).SecondName);
-
-        mUserUUIDTV = getView().findViewById(R.id.profile_info_uuid_tv);
-        mUserUUIDTV.setText(userInfoDBDao.getUserInfo().get(0).UUID);
-
-        mNrCasesTV = getView().findViewById(R.id.profile_info_nr_cases_tv);
-        mNrCasesTV.setText(casesCount);
-
-
-
-
     }
 
     @Override

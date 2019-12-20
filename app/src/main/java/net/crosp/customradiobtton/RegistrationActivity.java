@@ -25,7 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        mUserInfoDB = Room.databaseBuilder(this,UserInfoDB.class,"UserInfoDB").allowMainThreadQueries().build();
+        mUserInfoDB = UserInfoDB.getInstance(this);
         mUserInfoDBDao = mUserInfoDB.getDao();
 
         boolean userIsRegistered = isRegistrationComplete();
