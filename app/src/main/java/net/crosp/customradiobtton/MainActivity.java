@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import static android.widget.Toast.makeText;
 
 public class MainActivity extends AppCompatActivity implements
@@ -33,6 +35,12 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
+
+        try {
+            new KMZParser(this).execute(getAssets().open("eth.kml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mCurrentFragment = FRAGMENT_LIST.DIAGNOSER;
 

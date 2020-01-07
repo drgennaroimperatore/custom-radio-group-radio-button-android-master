@@ -13,7 +13,14 @@
         android:id="@+id/main_fragment"
         android:layout_weight="10"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp" >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
     <fragment android:name="net.crosp.customradiobtton.NavigationFragment"
         android:id="@+id/navigation_fragment"
