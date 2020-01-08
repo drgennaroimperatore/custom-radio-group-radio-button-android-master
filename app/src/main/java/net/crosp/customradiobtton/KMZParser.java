@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.renderscript.ScriptGroup;
 import android.util.Xml;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -12,6 +13,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 public class KMZParser extends AsyncTask<InputStream, Integer, Integer> {
@@ -101,7 +104,9 @@ private MainActivity mMainActivity =null;
 
     }
 
-    public void readDocument(XmlPullParser parser) throws XmlPullParserException, IOException {
+    public List<Folder> readDocument(XmlPullParser parser) throws XmlPullParserException, IOException {
+        List<Folder> folders = new ArrayList<>();
+
         parser.require(XmlPullParser.START_TAG, ns, "Document");
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.END_TAG) {
@@ -113,7 +118,7 @@ private MainActivity mMainActivity =null;
             String name = parser.getName();
             if(name.equals("Folder"))
             {
-                readFolder(parser);
+              folders.add(readFolder(parser));
 
             }
             else
@@ -122,10 +127,25 @@ private MainActivity mMainActivity =null;
             }
 
         }
+        return folders;
+
+
     }
 
-    public void readFolder(XmlPullParser parser) throws XmlPullParserException, IOException
+   public class Folder
     {
+        List<Placemark> mPlaceMarks;
+
+        public Folder(List<Placemark> placemarks) {mPlaceMarks = placemarks;}
+        public List<Placemark> getmPlaceMarks(){return mPlaceMarks;}
+
+    }
+
+    public Folder readFolder(XmlPullParser parser) throws XmlPullParserException, IOException
+    {
+        Folder folder = null;
+
+        List<Placemark> placemarks = new ArrayList<>();
         parser.require(XmlPullParser.START_TAG, ns, "Folder");
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.END_TAG) {
@@ -135,59 +155,88 @@ private MainActivity mMainActivity =null;
             }
 
             String name = parser.getName();
+
+
+
             if(parser.getName().equals("Placemark"))
             {
-                readPlacemark(parser);
+              placemarks.add(readPlacemark(parser));
 
             }
-            else
-            {
-                skip(parser);
-            }
+
+
 
         }
 
+        return new Folder(placemarks);
+
+
+
     }
 
-    public void readPlacemark(XmlPullParser parser) throws XmlPullParserException, IOException
+    class Placemark
     {
+        ExtendedData mExtendedData;
+
+        public ExtendedData getExtendedData() {
+                return mExtendedData;
+        }
+
+        public Placemark( ExtendedData extendedData) {mExtendedData = extendedData;}
+    }
+
+    public Placemark readPlacemark(XmlPullParser parser) throws XmlPullParserException, IOException
+    {
+        Placemark placemark = null;
         parser.require(XmlPullParser.START_TAG, ns, "Placemark");
-        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
-                }
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
             }
 
             String name = parser.getName();
             if(parser.getName().equals("ExtendedData"))
             {
-                readExtendedData(parser);
+               placemark = (new Placemark( readExtendedData(parser)));
 
             }
             else
-            {
                 skip(parser);
-            }
+
 
         }
 
+        return placemark;
+
     }
 
-    public void readExtendedData(XmlPullParser parser) throws XmlPullParserException, IOException
+    public class ExtendedData
     {
+        List<SimpleData> mSchemaData;
+
+        public ExtendedData(List<SimpleData> schema)
+        {
+            mSchemaData = schema;
+        }
+
+        public List<SimpleData> getSchemaData() {return mSchemaData;}
+
+    }
+
+    public ExtendedData readExtendedData(XmlPullParser parser) throws XmlPullParserException, IOException
+    {
+
         parser.require(XmlPullParser.START_TAG, ns, "ExtendedData");
-        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
-                }
+       ExtendedData extendedData = null;
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
             }
 
             String name = parser.getName();
             if(parser.getName().equals("SchemaData"))
             {
-                readSchemaData(parser);
+              extendedData = new ExtendedData( readSchemaData(parser));
 
             }
             else
@@ -197,22 +246,37 @@ private MainActivity mMainActivity =null;
 
         }
 
+        return  extendedData;
+
     }
 
-    public void readSchemaData(XmlPullParser parser) throws XmlPullParserException, IOException
+    HashMap<String, String> mDistrictsinRegion= new HashMap<String, String>();
+    HashMap<String, String> mWoredasinDistricts= new HashMap<String, String>();
+
+
+
+
+
+
+    public List<SimpleData> readSchemaData(XmlPullParser parser) throws XmlPullParserException, IOException
     {
         parser.require(XmlPullParser.START_TAG, ns, "SchemaData");
-        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
-                }
+       List<SimpleData> schemaData = new ArrayList<>();
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
             }
+           int index=0;
+
+
 
             String name = parser.getName();
             if(parser.getName().equals("SimpleData"))
             {
-                readSimpleData(parser);
+             schemaData.add(  readSimpleData(parser));
+
+
+
 
             }
             else
@@ -221,53 +285,50 @@ private MainActivity mMainActivity =null;
             }
 
         }
+        return schemaData;
 
     }
 
     public static class SimpleData
     {
-        String nationName=null;
-        String regionName=null;
-        String districtName=null;
-        String woredaName=null;
+        String attributeName=null;
+        String textContent=null;
 
-        private SimpleData(String nation, String region, String district, String woreda)
+
+        private SimpleData(String attributeName, String text )
         {
-            nationName = nation;
-            regionName = region;
-            districtName = district;
-            woredaName= woreda;
+            this.attributeName = attributeName;
+            textContent =text;
+
         }
+         public String getAttributeName() {return attributeName;}
+         public String getText() {return textContent;}
 
     }
 
+    //Dictionary<String,Dictionary<String,Dictionary<String,String>>> regionalData = null;
+
+
+
+
     public  SimpleData readSimpleData(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "SimpleData");
-        String nation = null;
-        String region = null;
-        String district = null;
-        String woreda = null;
-
-        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
-                }
-
-                String name = parser.getName();
-                if(name.equals("SimpleData"))
-                {
-                    nation = readText(parser);
-                    region =parser.getAttributeValue(null, "NAME_1");
-                    district= parser.getAttributeValue(null, "NAME_2");
-                    woreda= parser.getAttributeValue(null, "NAME_3");
-                }
 
 
-            }
+        String attributeName=null;
+        String text = null;
 
-        }
-        return new SimpleData(nation,region,district,woreda);
+
+
+
+
+                    attributeName= parser.getAttributeValue(null, "name");
+                    text = readText(parser);
+
+                 SimpleData data = new SimpleData(attributeName, text);
+
+
+        return data;
     }
 
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
