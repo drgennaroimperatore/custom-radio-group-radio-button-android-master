@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,12 +21,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class LogCaseActivity extends AppCompatActivity {
 
-    private Spinner mChosenDiseaseSpinner, mChosenRegionSpinner;
+    private Spinner mChosenDiseaseSpinner, mChosenRegionSpinner, mChosenDistrictSpinner, mChosenWoredaSpinner;
     private HashMap<String, Float> mDiagnoses;
     private ListView mPresentSignsLView, mNotPresentSignsLView;
     private TextView mChosenSpeciesTV, mPredictedDiagnosisTV;
@@ -126,6 +128,9 @@ public class LogCaseActivity extends AppCompatActivity {
 
         mChosenDiseaseSpinner= findViewById(R.id.chosen_diagnosis_spinner);
         mChosenRegionSpinner = findViewById(R.id.chosen_region_spinner);
+        mChosenDistrictSpinner = findViewById(R.id.chosen_district_spinner);
+        mChosenWoredaSpinner = findViewById(R.id.chosen_woreda_spinner);
+
 
         ArrayList<String> chosenDiseaseSpinnerList = new ArrayList<>();
 
@@ -139,8 +144,58 @@ public class LogCaseActivity extends AppCompatActivity {
        int indexOfPredictedDisease = chosenDiseaseSpinnerList.indexOf(mPredictedDiagnosisTV.getText().toString());
         mChosenDiseaseSpinner.setSelection(indexOfPredictedDisease);
 
-        ArrayAdapter<String> regionSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item, REGIONS_OF_ETHIOPIA);
+        LinkedList<String> regionsOfEthi = GeoData.getInstance().getRegions();
+
+        ArrayAdapter<String> regionSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item,regionsOfEthi );
         mChosenRegionSpinner.setAdapter(regionSpinnerAdapter);
+        ArrayList<String> districsFirstRegion = GeoData.getInstance().getDistricsForRegion(regionsOfEthi.get(0));
+
+        ArrayAdapter<String> districtsSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item);
+        mChosenDistrictSpinner.setAdapter(districtsSpinnerAdapter);
+
+        mChosenRegionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                districtsSpinnerAdapter.clear();
+                districtsSpinnerAdapter.addAll(GeoData.getInstance().getDistricsForRegion(regionsOfEthi.get(position)));
+                districtsSpinnerAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+
+            }
+
+
+        });
+
+        ArrayAdapter<String> woredaSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item);
+        mChosenWoredaSpinner.setAdapter(woredaSpinnerAdapter);
+
+
+
+        mChosenDistrictSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                woredaSpinnerAdapter.clear();
+                woredaSpinnerAdapter.addAll(GeoData.getInstance().getWoredasForDistrics((String) mChosenDistrictSpinner.getSelectedItem()));
+                woredaSpinnerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
 
         mCasesDB = CasesDB.getInstance(this);
         mCasesDBDAO = mCasesDB.getmCasesDBDAO();

@@ -15,9 +15,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
-public class KMZParser extends AsyncTask<InputStream, Integer, Integer> {
+public class KMZParser extends AsyncTask<InputStream, Integer, KMZParser.Document> {
 
 private static final String ns=null;
 private MainActivity mMainActivity =null;
@@ -29,11 +30,12 @@ private MainActivity mMainActivity =null;
     }
 
     @Override
-    protected Integer doInBackground(InputStream... streams) {
+    protected Document doInBackground(InputStream... streams) {
 
 
+        Document doc = null;
         try {
-            parseKMZ(streams[0]);
+           doc =parseKMZ(streams[0]);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (XmlPullParserException e) {
@@ -41,7 +43,7 @@ private MainActivity mMainActivity =null;
         }
 
 
-        return null;
+        return doc;
     }
 
 
@@ -54,9 +56,12 @@ private MainActivity mMainActivity =null;
     }
 
     @Override
-    protected void onPostExecute(Integer o)
+    protected void onPostExecute(Document o)
     {
         ((ProgressBar)mMainActivity.findViewById(R.id.progressBar)).setVisibility(View.INVISIBLE);
+
+        //populate geo data
+        GeoData.getInstance().populate(o);
         super.onPostExecute(o);
     }
 
@@ -66,7 +71,7 @@ private MainActivity mMainActivity =null;
         super.onProgressUpdate(values);
     }
 
-    private List parseKMZ(InputStream in) throws IOException, XmlPullParserException {
+    private Document parseKMZ(InputStream in) throws IOException, XmlPullParserException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -81,26 +86,48 @@ private MainActivity mMainActivity =null;
         }
     }
 
-    private List readKML(XmlPullParser parser) throws XmlPullParserException, IOException
+    public class Document
+    {
+        List<Folder> mFolders;
+
+        public Document(List<Folder> folders)
+
+        {
+            mFolders = folders;
+
+
+    }
+        public List<Folder> getmFolders() {
+            return mFolders;
+        }
+    }
+
+
+
+    private Document readKML(XmlPullParser parser) throws XmlPullParserException, IOException
     {
 
-        List entries = new ArrayList();
+        Document doc = null;
+
 
         parser.require(XmlPullParser.START_TAG, ns, "kml");
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
+            if (parser.getEventType() != XmlPullParser.END_TAG) {
+                if (parser.getEventType() != XmlPullParser.START_TAG) {
+                    continue;
+                }
             }
+
             String name = parser.getName();
 
             // Starts by looking for the entry tag
             if (name.equals("Document")) {
-              readDocument(parser);
+          doc = new Document( readDocument(parser));
             } else {
                 skip(parser);
             }
         }
-        return entries;
+        return doc;
 
     }
 
@@ -108,12 +135,12 @@ private MainActivity mMainActivity =null;
         List<Folder> folders = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, ns, "Document");
-        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.END_TAG) {
-                if (parser.getEventType() != XmlPullParser.START_TAG) {
-                    continue;
+            while (parser.next() != XmlPullParser.END_DOCUMENT) {
+                if (parser.getEventType() != XmlPullParser.END_TAG) {
+                    if (parser.getEventType() != XmlPullParser.START_TAG) {
+                        continue;
+                    }
                 }
-            }
 
             String name = parser.getName();
             if(name.equals("Folder"))

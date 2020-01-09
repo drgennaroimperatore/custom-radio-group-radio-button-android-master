@@ -148,17 +148,55 @@
         android:layout_below="@id/chosen_region_spinner_label"
 
         android:popupBackground="@color/colorPrimary"
-        android:background="@color/colorPrimary"
-
-        />
+        android:background="@color/colorPrimary" />
 
     <TextView
-        android:id="@+id/log_case_comments_label"
+        android:id="@+id/chosen_district_spinner_label"
         android:layout_below="@id/chosen_region_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/SubHeaderStyle"
+        android:text="District" />
+
+
+    <Spinner
+        android:id="@+id/chosen_district_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chosen_district_spinner_label"
+        android:popupBackground="@color/colorPrimary"
+        android:background="@color/colorPrimary" />
+
+
+    <TextView
+        android:id="@+id/chosen_woreda_spinner_label"
+        android:layout_below="@id/chosen_district_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SubHeaderStyle"
+        android:text="Woreda" />
+
+
+    <Spinner
+        android:id="@+id/chosen_woreda_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chosen_woreda_spinner_label"
+        android:popupBackground="@color/colorPrimary"
+        android:background="@color/colorPrimary" />
+
+
+    <TextView
+        android:id="@+id/log_case_comments_label"
+        android:layout_below="@id/chosen_woreda_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SubHeaderStyle"
         android:text="Comments" />
+
+
+
+
 
     <EditText
         android:id="@+id/log_case_comments"
