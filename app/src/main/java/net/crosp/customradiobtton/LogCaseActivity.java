@@ -17,6 +17,7 @@ import androidx.room.Room;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,31 +34,22 @@ public class LogCaseActivity extends AppCompatActivity {
     private TextView mChosenSpeciesTV, mPredictedDiagnosisTV;
     private EditText mCaseDateET, mCommentsET;
     private Button mSubmitCaseButton;
-    String mSelectedSpecies;
+    private String mSelectedSpecies;
+    private AbstractMap.SimpleEntry<String, Float> mMostLikelyDiagnosis;
 
 
     CasesDB mCasesDB;
     CasesDBDAO mCasesDBDAO;
 
 
-    private String[] REGIONS_OF_ETHIOPIA = new String[] {
-            "Addis Ababa",
-            "Afar",
-            "Amhara",
-            "Benishangul-Gumuz",
-            "Dire Dawa",
-            "Gambela",
-            "Harari",
-            "Oromia",
-            "Somali",
-            "Tigray",
-            "Southern Nations Nationalities and People"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_case);
+
+         mMostLikelyDiagnosis =
+                (AbstractMap.SimpleEntry<String, Float>) getIntent().getSerializableExtra("mostLikelyDiagnosis");
 
         mSelectedSpecies =getIntent().getStringExtra("species");
         mChosenSpeciesTV = findViewById(R.id.case_review_species);
@@ -124,7 +116,8 @@ public class LogCaseActivity extends AppCompatActivity {
         mDiagnoses = (HashMap<String, Float>) getIntent().getSerializableExtra("diagnoses");
 
         mPredictedDiagnosisTV = findViewById(R.id.case_review_most_likely_diagnosis);
-        mPredictedDiagnosisTV.setText(getIntent().getStringExtra("mostLikelyDiagnosis"));
+
+        mPredictedDiagnosisTV.setText(mMostLikelyDiagnosis.getKey());
 
         mChosenDiseaseSpinner= findViewById(R.id.chosen_diagnosis_spinner);
         mChosenRegionSpinner = findViewById(R.id.chosen_region_spinner);
@@ -175,14 +168,10 @@ public class LogCaseActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-
-
             }
 
 
         });
-
-
 
 
         mChosenDistrictSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -200,11 +189,9 @@ public class LogCaseActivity extends AppCompatActivity {
         });
 
 
-
-
-
         mCasesDB = CasesDB.getInstance(this);
         mCasesDBDAO = mCasesDB.getmCasesDBDAO();
+
     }
 
 
@@ -225,6 +212,9 @@ public class LogCaseActivity extends AppCompatActivity {
        ADDBDAO addbdao = ADDB.getInstance(this).getADDBDAO();
 
         Cases newCase = new Cases();
+
+        //store general case info
+
         newCase.AnimalID = addbdao.getAnimalIDFromName(mSelectedSpecies).get(0); // CHANGE THAT
         newCase.Comments = mCommentsET.getText().toString();
         newCase.DateCaseLogged = new Date();
@@ -236,11 +226,23 @@ public class LogCaseActivity extends AppCompatActivity {
         {
 
         }
+        //store geographical info
         newCase.Region = mChosenRegionSpinner.getSelectedItem().toString();
-        newCase.DiseaseChosenByUserID= 0;
-        newCase.LikelihoodDPbyApp=100.0f;
-        newCase.UserUUID="Fix this!";
+        newCase.District= mChosenDistrictSpinner.getSelectedItem().toString();
+        newCase.Woreda = mChosenWoredaSpinner.getSelectedItem().toString();
 
+
+        //Store diagnostic info
+        newCase.DiseaseChosenByUserID =ADDB.getInstance(this).getADDBDAO().
+                getDiseaseIDFromName(mChosenDiseaseSpinner.getSelectedItem().toString()).get(0);
+        newCase.DiseasePredictedByAppID= ADDB.getInstance(this).getADDBDAO().
+                getDiseaseIDFromName(mMostLikelyDiagnosis.getKey()).get(0);
+        newCase.LikelihoodDPbyApp=mMostLikelyDiagnosis.getValue();
+
+        //store user info
+        newCase.UserUUID=UserInfoDB.getInstance(this).getDao().getUserInfo().get(0).UUID;
+
+        //log case
         mCasesDBDAO.insertCase(newCase);
 
         List<Cases> c = mCasesDBDAO.getAllCases();

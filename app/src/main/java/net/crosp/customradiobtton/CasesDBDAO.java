@@ -31,6 +31,9 @@ public interface CasesDBDAO {
     @Query("SELECT * FROM Cases")
     public List<Cases> getAllCases();
 
+    @Query("DELETE FROM Cases")
+    public void DeleteAllCases();
+
     @Query("SELECT * FROM ResultsForCase WHERE CaseID = :caseID")
     public List<ResultsForCase> getAllResultsForCase(int caseID);
 

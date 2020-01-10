@@ -27,6 +27,8 @@ public class CaseInfoDialog extends Dialog {
         mTabLayout.addTab(mTabLayout.newTab().setText("Signs Info"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Treatment Info"));
 
+
+
         mCloseButton = findViewById(R.id.case_info_popup_close_button);
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override

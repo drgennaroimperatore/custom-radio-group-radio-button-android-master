@@ -74,9 +74,9 @@ public class CasesListAdapter extends ArrayAdapter<Cases> {
             }
         });
 
-     /*   TextView userChosenDiseaseTV = v.findViewById(R.id.case_list_user_disease_tv);
+        TextView userChosenDiseaseTV = v.findViewById(R.id.case_list_user_disease_tv);
         String diseaseChosenByUser =addbdao.getDiseaseNameFromId(c.DiseaseChosenByUserID).get(0);
-        userChosenDiseaseTV.setText(diseaseChosenByUser);*/
+        userChosenDiseaseTV.setText(diseaseChosenByUser);
 
 
 

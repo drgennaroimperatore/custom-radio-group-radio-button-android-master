@@ -38,6 +38,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -63,7 +64,7 @@ public class ResultsActivity extends AppCompatActivity {
     private String mSpecies;
     private HashMap<String, Float> mDiagnoses = new HashMap<>();
     private HashMap<String, String> mSigns = new HashMap<>();
-    private String mMostLikelyDiagnosis;
+    private AbstractMap.SimpleEntry<String, Float> mMostLikelyDiagnosis;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -72,6 +73,7 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
 
         //Get the diagnoses from the previous activity
+
         mDiagnoses = sortDiagnoses ((HashMap<String, Float>) getIntent().getSerializableExtra("diagnoses"));
         mSigns = (HashMap<String, String>) getIntent().getSerializableExtra("signs");
         mSpecies = getIntent().getStringExtra("species");
@@ -135,7 +137,8 @@ public class ResultsActivity extends AppCompatActivity {
            String s =String.format("%.2f", (Float) e.getValue());
 
            if(i==0)
-               mMostLikelyDiagnosis= e.getKey();
+               mMostLikelyDiagnosis = new AbstractMap.SimpleEntry(e.getKey(),e.getValue());
+
 
            if(i<=2)
            {

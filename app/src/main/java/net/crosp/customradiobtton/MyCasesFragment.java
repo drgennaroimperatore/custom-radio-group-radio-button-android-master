@@ -83,6 +83,7 @@ public class MyCasesFragment extends Fragment  {
         CasesDB casesDB = CasesDB.getInstance(getContext());
         CasesDBDAO casesDBDAO = casesDB.getmCasesDBDAO();
 
+
         ArrayList cases = new ArrayList(casesDBDAO.getAllCases());
 
         CasesListAdapter myCasesListAdapter = new CasesListAdapter(getContext(), R.layout.cases_list_row, cases, this);
