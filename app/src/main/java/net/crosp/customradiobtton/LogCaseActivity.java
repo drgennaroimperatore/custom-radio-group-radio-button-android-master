@@ -153,6 +153,10 @@ public class LogCaseActivity extends AppCompatActivity {
         ArrayAdapter<String> districtsSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item);
         mChosenDistrictSpinner.setAdapter(districtsSpinnerAdapter);
 
+        ArrayAdapter<String> woredaSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item);
+        mChosenWoredaSpinner.setAdapter(woredaSpinnerAdapter);
+
+
         mChosenRegionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -161,6 +165,10 @@ public class LogCaseActivity extends AppCompatActivity {
                 districtsSpinnerAdapter.clear();
                 districtsSpinnerAdapter.addAll(GeoData.getInstance().getDistricsForRegion(regionsOfEthi.get(position)));
                 districtsSpinnerAdapter.notifyDataSetChanged();
+                woredaSpinnerAdapter.clear();
+                woredaSpinnerAdapter.addAll(GeoData.getInstance().getWoredasForDistrics
+                        ((String) GeoData.getInstance().getDistricsForRegion(regionsOfEthi.get(position)).get(0)));
+
 
             }
 
@@ -174,8 +182,6 @@ public class LogCaseActivity extends AppCompatActivity {
 
         });
 
-        ArrayAdapter<String> woredaSpinnerAdapter = new ArrayAdapter(this,R.layout.chosen_diagnosis_spinner_item);
-        mChosenWoredaSpinner.setAdapter(woredaSpinnerAdapter);
 
 
 
