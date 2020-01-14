@@ -3,39 +3,77 @@ package net.crosp.customradiobtton;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 
-public class CaseInfoDialog extends Dialog {
+public class CaseInfoDialog extends DialogFragment implements
+        MyCasesGeneralInfoTabFragment.OnFragmentInteractionListener {
     TabLayout mTabLayout;
     Button mCloseButton;
-    public CaseInfoDialog(@NonNull Context context) {
-        super(context);
+    ViewPager mViewPager;
+    int mCaseID;
+    FragmentManager mFm;
+
+
+
+    public CaseInfoDialog()
+    {
+
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.case_details_popup);
-        mTabLayout = findViewById(R.id.case_info_popup_tablayout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("General Info"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Signs Info"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Treatment Info"));
 
 
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mCloseButton = findViewById(R.id.case_info_popup_close_button);
+       View v = inflater.inflate(R.layout.case_details_popup,null);
+
+        mTabLayout = v.findViewById(R.id.case_info_popup_tablayout);
+        mViewPager = v.findViewById(R.id.case_info_popup_viewpager);
+
+      //  mTabLayout.addTab(mTabLayout.newTab().setText("General Info"));
+      //  mTabLayout.addTab(mTabLayout.newTab().setText("Signs Info"));
+       // mTabLayout.addTab(mTabLayout.newTab().setText("Treatment Info"));
+
+
+
+
+        final CasesInfoPopupFragmentAdapter casesInfoPopupFragmentAdapter =
+                new CasesInfoPopupFragmentAdapter(getChildFragmentManager(), getArguments().getInt("caseId"));
+        casesInfoPopupFragmentAdapter.addFrag(new MyCasesGeneralInfoTabFragment(),"General Info");
+        mViewPager.setAdapter(casesInfoPopupFragmentAdapter);
+
+
+
+
+        mTabLayout.setupWithViewPager(mViewPager);
+
+
+        mCloseButton = v.findViewById(R.id.case_info_popup_close_button);
         mCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+
+        return v;
+
+    }
+
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

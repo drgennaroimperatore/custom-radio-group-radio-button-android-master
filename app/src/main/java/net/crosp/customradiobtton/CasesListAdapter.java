@@ -53,13 +53,13 @@ public class CasesListAdapter extends ArrayAdapter<Cases> {
         speciesTV.setText(addbdao.getAnimalNameFromID(c.AnimalID).get(0));
 
         TextView dateCaseObservedTV = v.findViewById(R.id.case_list_date_observed_tv);
-        TextView dateCaseLoggedTV =v.findViewById(R.id.case_list_date_logged_tv);
+       // TextView dateCaseLoggedTV =v.findViewById(R.id.case_list_date_logged_tv);
 
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
         try {
             dateCaseObservedTV.setText( formatter.format(c.DateCaseObserved));
-            dateCaseLoggedTV.setText(formatter.format(c.DateCaseLogged));
+           // dateCaseLoggedTV.setText(formatter.format(c.DateCaseLogged));
         }
         catch (Exception e)
         {
