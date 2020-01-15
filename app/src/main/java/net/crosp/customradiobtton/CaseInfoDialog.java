@@ -18,7 +18,9 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 
 public class CaseInfoDialog extends DialogFragment implements
-        MyCasesGeneralInfoTabFragment.OnFragmentInteractionListener {
+        MyCasesGeneralInfoTabFragment.OnFragmentInteractionListener,
+        MyCasesSignsInfoTabFragment.OnFragmentInteractionListener,
+        MyCasesTreatmentInfoFragment.OnFragmentInteractionListener{
     TabLayout mTabLayout;
     Button mCloseButton;
     ViewPager mViewPager;
@@ -51,6 +53,8 @@ public class CaseInfoDialog extends DialogFragment implements
         final CasesInfoPopupFragmentAdapter casesInfoPopupFragmentAdapter =
                 new CasesInfoPopupFragmentAdapter(getChildFragmentManager(), getArguments().getInt("caseId"));
         casesInfoPopupFragmentAdapter.addFrag(new MyCasesGeneralInfoTabFragment(),"General Info");
+        casesInfoPopupFragmentAdapter.addFrag(new MyCasesSignsInfoTabFragment(), "Signs Info");
+        casesInfoPopupFragmentAdapter.addFrag(new MyCasesTreatmentInfoFragment(), "Treatment Info");
         mViewPager.setAdapter(casesInfoPopupFragmentAdapter);
 
 

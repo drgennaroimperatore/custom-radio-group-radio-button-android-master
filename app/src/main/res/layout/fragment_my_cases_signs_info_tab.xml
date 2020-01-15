@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyCasesSignsInfoTabFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <!-- TODO: Update blank fragment layout -->
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SmallHeaderStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:text="Present Signs"></TextView>
+
+                <TextView
+                    style="@style/SmallHeaderStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:text="Not Present Signs"></TextView>
+            </TableRow>
+
+            <TableRow>
+                <ListView
+                    android:id="@+id/present_signs_signsInfoTabList"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"></ListView>
+
+                <ListView
+                    android:id="@+id/not_present_signs_signsInfoTabList"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"></ListView>
+            </TableRow>
+
+
+        </TableLayout>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+</FrameLayout>

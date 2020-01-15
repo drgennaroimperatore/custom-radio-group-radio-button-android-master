@@ -182,7 +182,7 @@ public class ResultsActivity extends AppCompatActivity {
         pie.getBackgroundPaint().setColor(Color.TRANSPARENT);
         mPieRenderer = pie.getRenderer(CustomPieRenderer.class);
 
-      mPieRenderer.setStartDegs(180);
+      mPieRenderer.setStartDegs(0);
 
         mDiseaseListView = (ExpandableListView) findViewById(R.id.disease_list_view);
 

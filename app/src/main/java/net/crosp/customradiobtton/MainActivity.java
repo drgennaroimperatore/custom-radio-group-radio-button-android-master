@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity implements
         NavigationFragment.OnFragmentInteractionListener,
         MyCasesFragment.OnFragmentInteractionListener,
         ProfileFragment.OnFragmentInteractionListener,
-        MyCasesGeneralInfoTabFragment.OnFragmentInteractionListener
+        MyCasesGeneralInfoTabFragment.OnFragmentInteractionListener,
+        MyCasesSignsInfoTabFragment.OnFragmentInteractionListener,
+        MyCasesTreatmentInfoFragment.OnFragmentInteractionListener
 {
 
     BottomNavigationView mNavigationBar;

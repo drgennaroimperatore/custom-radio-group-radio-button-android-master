@@ -216,8 +216,8 @@ public class DiagnoserFragment extends Fragment {
 
 
 
-                if(value.equals( "Horse/Mule")) // treat all equids the same
-                    value = "Donkey";
+                if(value.equals( "Horse/Mule"))
+                    value = "Horse_Mule";
 
                 Log.d("ANIMAL SELECTION",value);
 

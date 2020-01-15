@@ -20,22 +20,29 @@
         android:id="@+id/case_info_popup_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:tabMode="fixed"
+        app:tabGravity="fill">
 
 
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/case_info_popup_viewpager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="287dp"
+        android:layout_height="336dp"
         android:layout_below="@id/case_info_popup_tablayout"
         android:layout_centerInParent="true"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/case_info_popup_tablayout"
+        app:layout_constraintVertical_bias="0.503"
+        android:layout_marginTop="30px"/>
 
     <Button
         android:id="@+id/case_info_popup_close_button"

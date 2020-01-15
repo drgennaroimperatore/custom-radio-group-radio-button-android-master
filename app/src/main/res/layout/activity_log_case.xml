@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +13,6 @@
 
     <TextView
         android:id="@+id/log_case_header"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log the Case"
@@ -66,14 +70,15 @@
         </TableRow>
 
         <TableRow>
+
             <ListView
                 android:id="@+id/present_signs_reviewList"
-                android:layout_height="wrap_content"
+                android:layout_height="291dp"
                 android:layout_column="0"></ListView>
 
             <ListView
                 android:id="@+id/not_present_signs_reviewList"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_column="1"></ListView>
         </TableRow>
 
@@ -211,20 +216,7 @@
 
 
 
-    <Button
-        android:id="@+id/back_to_results_button"
-        android:layout_width="89dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="0dp"
-        android:textColor="@color/black"
-        android:background="@color/colorPrimary"
 
-        android:layout_marginBottom="0dp"
-        android:text="&lt; Cancel"
-        tools:layout_editor_absoluteX="313dp"
-        tools:layout_editor_absoluteY="530dp"></Button>
 
     <Button
         android:id="@+id/logCase_button"
@@ -232,6 +224,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_below="@id/log_case_comments"
         android:textColor="@color/black"
         android:background="@color/colorPrimary"
 
@@ -241,3 +234,5 @@
 
 
 </RelativeLayout>
+
+    </ScrollView>
