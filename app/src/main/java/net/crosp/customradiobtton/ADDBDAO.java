@@ -49,6 +49,12 @@ public interface ADDBDAO {
     @Query("SELECT Diseases.Id FROM Diseases WHERE Diseases.Name=:name")
     List<Integer> getDiseaseIDFromName(String name);
 
+    @Query("SELECT Signs.Id FROM Signs WHERE Signs.Name=:name")
+    List<Integer> getSignIDFromName (String name);
+
+    @Query("SELECT Signs.Name FROM Signs WHERE Signs.Id=:id")
+    List<String> getSignNameFromID (int id);
+
     @Query("SELECT Animals.Id FROM Animals")
     public List<Integer> TestAnimalsTable();
 

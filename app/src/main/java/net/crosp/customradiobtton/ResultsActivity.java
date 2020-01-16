@@ -134,7 +134,7 @@ public class ResultsActivity extends AppCompatActivity {
 
        for(Map.Entry<String, Float> e : entries)
        {
-           String s =String.format("%.2f", (Float) e.getValue());
+           String s =String.format("%d",  Math.round(e.getValue()));
 
            if(i==0)
                mMostLikelyDiagnosis = new AbstractMap.SimpleEntry(e.getKey(),e.getValue());
@@ -142,7 +142,7 @@ public class ResultsActivity extends AppCompatActivity {
 
            if(i<=2)
            {
-               segments[i] = new Segment((String) e.getKey(),Float.parseFloat(s) );
+               segments[i] = new Segment((String) e.getKey(),(int)Float.parseFloat(s) );
                sum+=e.getValue();
            }
            i++;

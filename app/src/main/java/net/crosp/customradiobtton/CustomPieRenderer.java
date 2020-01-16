@@ -58,7 +58,7 @@ public class CustomPieRenderer extends PieRenderer  {
         for(double v :values)
         {
             BigDecimal bd = BigDecimal.valueOf(v);
-            bd = bd.setScale(2, RoundingMode.HALF_UP);
+            bd = bd.setScale(0, RoundingMode.HALF_UP);
             roundedValues[index] = bd.doubleValue();
             index++;
         }
@@ -75,7 +75,7 @@ public class CustomPieRenderer extends PieRenderer  {
             float lastOffset = offset;
             float sweep = (float) (scale * (values[i]) * extentDegs);
             offset += sweep;
-            String title = String.valueOf(values[i]) + "%";
+            String title = String.format("%d", (int)values[i]) + "%";
             Segment segment = sfPair.getSeries();
             segment.setTitle( segment.getTitle() + " (" + title + ")");
             drawSegment(canvas, rec, segment, sfPair.getFormatter(), radius, lastOffset,

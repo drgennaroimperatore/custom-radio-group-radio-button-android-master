@@ -10,4 +10,6 @@ public class ResultsForCase {
     @PrimaryKey (autoGenerate = true)
     public int ID;
     public int CaseID;
+    public int DiseaseID;
+    public float PredictedLikelihoodOfDisease;
 }

@@ -15,8 +15,8 @@ import androidx.room.TypeConverters;
         Cases.class,
         ResultsForCase.class,
         SignsForCase.class
-        } , version = 2)
-@TypeConverters(DateConverter.class)
+        } , version = 3)
+@TypeConverters({DateConverter.class, SignPresenceConverter.class})
 public abstract class CasesDB extends RoomDatabase {
     CasesDBDAO mCasesDBDAO;
 

@@ -10,4 +10,6 @@ public class SignsForCase {
     @PrimaryKey (autoGenerate = true)
     public int ID;
     public int CaseID;
+    public int SignID;
+    public SignPresence Presence;
 }

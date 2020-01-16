@@ -3,10 +3,18 @@ package net.crosp.customradiobtton;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,11 +35,15 @@ public class MyCasesSignsInfoTabFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private ListView mLVSignsPresent, mLVSignsNotPresent;
+
     private OnFragmentInteractionListener mListener;
 
     public MyCasesSignsInfoTabFragment() {
         // Required empty public constructor
     }
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -65,6 +77,48 @@ public class MyCasesSignsInfoTabFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_cases_signs_info_tab, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mLVSignsNotPresent = (ListView) view.findViewById(R.id.not_present_signs_signsInfoTabList);
+        mLVSignsPresent = (ListView) view.findViewById(R.id.present_signs_signsInfoTabList);
+
+        //set adapters
+        ArrayList<String> npSigns = new ArrayList<>();
+        ArrayList<String> pSigns = new ArrayList<>();
+
+      List<SignsForCase> signsForCase =
+              CasesDB.getInstance(getContext()).
+                      getmCasesDBDAO().
+                      getAllSignsForCase((int) getArguments().getInt("caseId"));
+
+      if (signsForCase.isEmpty())
+          return;
+
+      for(SignsForCase sign: signsForCase)
+      {
+          String signName = ADDB.getInstance(getContext()).getADDBDAO().getSignNameFromID(sign.SignID).get(0);
+
+          if (sign.Presence == SignPresence.PRESENT)
+              pSigns.add(signName);
+          if(sign.Presence == SignPresence.NOT_PRESENT)
+              npSigns.add(signName);
+
+      }
+
+      if(pSigns.isEmpty())
+          pSigns.add("NONE GIVEN");
+      if(npSigns.isEmpty())
+          npSigns.add("NONE GIVEN");
+
+        ArrayAdapter<String> presentSignsAdapter = new ArrayAdapter<>(getContext(), R.layout.case_review_present_notpresent_list_row, pSigns);
+        ArrayAdapter<String> notPresentSignsAdapter = new ArrayAdapter<>(getContext(), R.layout.case_review_present_notpresent_list_row,npSigns);
+
+        mLVSignsPresent.setAdapter(presentSignsAdapter);
+        mLVSignsNotPresent.setAdapter(notPresentSignsAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -245,8 +245,51 @@ public class LogCaseActivity extends AppCompatActivity {
         //log case
         mCasesDBDAO.insertCase(newCase);
 
-        List<Cases> c = mCasesDBDAO.getAllCases();
+        //insert signs for case
+        int lastID = mCasesDBDAO.getAllCases().get(mCasesDBDAO.getAllCases().size()-1).ID;
+        HashMap<String, String> selectedSigns = (HashMap<String, String>) getIntent().getSerializableExtra("signs");
 
+        for(Map.Entry <String, String> sign: selectedSigns.entrySet())
+        {
+
+            SignsForCase sfc = new SignsForCase();
+            sfc.CaseID = lastID;
+            sfc.SignID = ADDB.getInstance(this).getADDBDAO().getSignIDFromName((String)sign.getKey()).get(0);
+            if(sign.getValue().equals("Present"))
+            {
+                sfc.Presence = SignPresence.PRESENT;
+            }
+            if(sign.getValue().equals("Not Present"))
+            {
+                sfc.Presence = SignPresence.NOT_PRESENT;
+            }
+            if(sign.getValue().equals("Not Observed"))
+            {
+                sfc.Presence = SignPresence.NOT_OBSERVED;
+            }
+
+            mCasesDBDAO.insertSignsForCase(sfc);
+        }
+
+
+        //insert results for case
+        HashMap<String, Float> diagnosesForCase = (HashMap<String, Float>) getIntent().getSerializableExtra("diagnoses");
+
+        for (Map.Entry<String, Float> diagnosis: diagnosesForCase.entrySet())
+        {
+            ResultsForCase rfc = new ResultsForCase();
+            rfc.CaseID = lastID;
+            rfc.DiseaseID = ADDB.getInstance(this).getADDBDAO().getDiseaseIDFromName(diagnosis.getKey()).get(0);
+            rfc.PredictedLikelihoodOfDisease = diagnosis.getValue();
+
+            mCasesDBDAO.insertResultsForCase(rfc);
+
+        }
+
+
+
+
+    //go back to main activity and clear stack so that back button does not go back to logged diagnosis
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_NO_ANIMATION| Intent.FLAG_ACTIVITY_CLEAR_TASK);
         setTheme(R.style.AppTheme);
