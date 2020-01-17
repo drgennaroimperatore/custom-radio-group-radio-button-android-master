@@ -13,12 +13,12 @@
         android:id="@+id/my_cases_diagnosis_info_titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Diagnoses For Case" />
+        android:text="Diagnoses Predicted By App For Case" />
 
         <ListView
             android:id="@+id/my_cases_diagnosis_info_diagnoses_listview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="480dp"
             android:layout_below="@id/my_cases_diagnosis_info_titleTextView">
 
         </ListView>

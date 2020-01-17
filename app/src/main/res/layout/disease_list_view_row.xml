@@ -18,9 +18,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textSize="20sp"
+                style="@style/SmallHeaderStyle"
                 android:layout_alignParentLeft="true"
-                android:textStyle="bold" />
+                 />
 
         <TextView
                 android:id="@+id/diseaseListPercentageTextView"
