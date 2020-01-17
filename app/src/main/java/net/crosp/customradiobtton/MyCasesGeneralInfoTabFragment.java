@@ -3,10 +3,16 @@ package net.crosp.customradiobtton;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 
 /**
@@ -22,6 +28,10 @@ public class MyCasesGeneralInfoTabFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    TextView mCaseIdTextView,
+            mRegionTextView, mDistricTextView, mWoredaTextView,
+            mDateCaseLoggedTextView, mDateCaseObservedTextView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -65,6 +75,35 @@ public class MyCasesGeneralInfoTabFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_cases_general_info_tab, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        int caseID = getArguments().getInt("caseId");
+        CasesDBDAO dao = CasesDB.getInstance(getContext()).getmCasesDBDAO();
+       Cases c = dao.getCasesByID(caseID).get(0);
+
+       mCaseIdTextView = view.findViewById(R.id.my_cases_general_info_tab_caseid_textview);
+        mDateCaseObservedTextView = view.findViewById(R.id.my_cases_general_info_tab_observedon_textview);
+        mDateCaseLoggedTextView = view.findViewById(R.id.my_cases_general_info_tab_loggedon_textview);
+
+        mRegionTextView = view.findViewById(R.id.my_cases_general_info_tab_region_textview);
+        mDistricTextView = view.findViewById(R.id.my_cases_general_info_tab_district_textview);
+        mWoredaTextView =view.findViewById(R.id.my_cases_general_info_tab_woreda_textview);
+
+       mCaseIdTextView.setText(String.valueOf(c.ID));
+
+
+       mDateCaseLoggedTextView.setText(String.valueOf(c.DateCaseLogged).replace("GMT",""));
+       mDateCaseObservedTextView.setText(String.valueOf(c.DateCaseObserved).replace("GMT",""));
+
+       mRegionTextView.setText(c.Region);
+       mDistricTextView.setText(c.District);
+       mWoredaTextView.setText(c.Woreda);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

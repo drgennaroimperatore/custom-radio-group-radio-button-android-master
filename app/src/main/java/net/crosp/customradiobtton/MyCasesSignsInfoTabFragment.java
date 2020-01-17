@@ -102,6 +102,11 @@ public class MyCasesSignsInfoTabFragment extends Fragment {
       {
           String signName = ADDB.getInstance(getContext()).getADDBDAO().getSignNameFromID(sign.SignID).get(0);
 
+          if(signName.length()>=11) {
+              signName = signName.subSequence(0, 11).toString();
+              signName+="...";
+          }
+
           if (sign.Presence == SignPresence.PRESENT)
               pSigns.add(signName);
           if(sign.Presence == SignPresence.NOT_PRESENT)

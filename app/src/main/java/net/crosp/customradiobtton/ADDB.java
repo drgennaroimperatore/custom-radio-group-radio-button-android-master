@@ -39,7 +39,8 @@ public abstract class ADDB extends RoomDatabase {
     {
         if(mInstance==null)
         {
-            mInstance = Room.databaseBuilder(context, ADDB.class, "ADDB").allowMainThreadQueries().build();
+            mInstance = Room.databaseBuilder(context, ADDB.class, "ADDB")
+                    .createFromAsset("ADDB").allowMainThreadQueries().build();
         }
 
         return mInstance;

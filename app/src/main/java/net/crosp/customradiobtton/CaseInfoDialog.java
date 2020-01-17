@@ -61,6 +61,10 @@ public class CaseInfoDialog extends DialogFragment implements
         signsInfoTabFragment.setArguments(getArguments());
         casesInfoPopupFragmentAdapter.addFrag(signsInfoTabFragment, "Signs Info");
 
+        MyCasesDiagnosisInfoTabFragment diagnosisInfoTabFragment = new MyCasesDiagnosisInfoTabFragment();
+        diagnosisInfoTabFragment.setArguments(getArguments());
+        casesInfoPopupFragmentAdapter.addFrag(diagnosisInfoTabFragment, "Diagnosis Info");
+
         MyCasesTreatmentInfoFragment treatmentInfoFragment = new MyCasesTreatmentInfoFragment();
         treatmentInfoFragment.setArguments(getArguments());
         casesInfoPopupFragmentAdapter.addFrag(treatmentInfoFragment, "Treatment Info");

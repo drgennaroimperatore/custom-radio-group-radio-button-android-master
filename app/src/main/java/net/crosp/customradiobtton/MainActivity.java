@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements
         ProfileFragment.OnFragmentInteractionListener,
         MyCasesGeneralInfoTabFragment.OnFragmentInteractionListener,
         MyCasesSignsInfoTabFragment.OnFragmentInteractionListener,
+        MyCasesDiagnosisInfoTabFragment.OnFragmentInteractionListener,
         MyCasesTreatmentInfoFragment.OnFragmentInteractionListener
 {
 
