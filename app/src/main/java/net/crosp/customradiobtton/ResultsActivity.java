@@ -22,6 +22,10 @@ import com.androidplot.pie.PieChart;
 import com.androidplot.pie.PieRenderer;
 import com.androidplot.pie.Segment;
 import com.androidplot.pie.SegmentFormatter;
+import com.androidplot.ui.Anchor;
+import com.androidplot.ui.SeriesRenderer;
+import com.androidplot.ui.SizeMetric;
+import com.androidplot.ui.TableModel;
 import com.androidplot.util.*;
 import com.androidplot.ui.DynamicTableModel;
 import com.androidplot.ui.FixedTableModel;
@@ -30,6 +34,18 @@ import com.androidplot.ui.Size;
 import com.androidplot.ui.SizeMode;
 import com.androidplot.ui.HorizontalPositioning;
 import com.androidplot.ui.VerticalPositioning;
+import com.androidplot.xy.BarFormatter;
+import com.androidplot.xy.BarRenderer;
+import com.androidplot.xy.BoundaryMode;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.Step;
+import com.androidplot.xy.StepMode;
+import com.androidplot.xy.XYGraphWidget;
+import com.androidplot.xy.XYLegendItem;
+import com.androidplot.xy.XYLegendWidget;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
+
 import android.content.Context;
 
 import net.crosp.customradiobtton.CustomPieSegmentFormatter;
@@ -37,9 +53,16 @@ import net.crosp.customradiobtton.CustomPieSegmentFormatter;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.text.DateFormatSymbols;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -58,13 +81,19 @@ public class ResultsActivity extends AppCompatActivity {
 
     private ExpandableListView mDiseaseListView;
 
-    public PieChart pie;
-    private PieRenderer mPieRenderer;
+   // public PieChart pie;
+   // private PieRenderer mPieRenderer;
+
+    private XYPlot mPlot;
+    private XYSeries mSeries;
+    private MyBarFormatter mBarFormatter;
 
     private String mSpecies;
     private HashMap<String, Float> mDiagnoses = new HashMap<>();
     private HashMap<String, String> mSigns = new HashMap<>();
     private AbstractMap.SimpleEntry<String, Float> mMostLikelyDiagnosis;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -95,13 +124,16 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
 
-        // initialize our XYPlot reference:
+        mPlot =(XYPlot) findViewById(R.id.mySimplePieChart);
+
+
+        /*// initialize our XYPlot reference:
         pie = (PieChart) findViewById(R.id.mySimplePieChart);
 
         // enable the legend:
         pie.getLegend().setVisible(true);
         pie.getLegend().setTableModel(new DynamicTableModel(1,4, TableOrder.ROW_MAJOR));
-       /* pie.getLegend().setSize(new Size(
+        pie.getLegend().setSize(new Size(
                 PixelUtils.dpToPix(85), SizeMode.ABSOLUTE,
                 PixelUtils.dpToPix(70), SizeMode.ABSOLUTE));
         pie.getLegend().position(
@@ -118,40 +150,141 @@ public class ResultsActivity extends AppCompatActivity {
                 0, HorizontalPositioning.RELATIVE_TO_LEFT,
                 0, VerticalPositioning.RELATIVE_TO_TOP);*/
 
-      reducePieSize();
+    //  reducePieSize();
 
        // donutSizeTextView = (TextView) findViewById(R.id.donutSizeTextView);
         //updateDonutText();
-
-
 
 
        Set<Map.Entry<String,Float>> entries = mDiagnoses.entrySet();
 
        int i =0;
        Float sum =0.0f;
-       Segment [] segments = new Segment[4];
+      // Segment [] segments = new Segment[4];
 
-       for(Map.Entry<String, Float> e : entries)
-       {
-           String s =String.format("%d",  Math.round(e.getValue()));
+        Paint fillPaint = new Paint();
+        fillPaint.setColor(Color.BLACK);
+        mPlot.getGraph().setGridBackgroundPaint(fillPaint);
+        mPlot.getGraph().getDomainGridLinePaint().setColor(Color.TRANSPARENT);
+        mPlot.getGraph().getRangeGridLinePaint().setColor(Color.TRANSPARENT);
+
+        mPlot.getGraph().getSize().setHeight(new SizeMetric(450,SizeMode.FILL));
+        mPlot.getGraph().setMarginTop(PixelUtils.dpToPix(0));
+        mPlot.getGraph().setMarginBottom(PixelUtils.dpToPix(0));
+
+
+
+     Number[] numbers = new Number[4];
+     String[] titles = new String[4];
+       for(Map.Entry<String, Float> e : entries) {
+           String s = String.format("%d", Math.round(e.getValue()));
+
+
 
            if(i==0)
-               mMostLikelyDiagnosis = new AbstractMap.SimpleEntry(e.getKey(),e.getValue());
+           {
+               mMostLikelyDiagnosis = new AbstractMap.SimpleEntry(e.getKey(), e.getValue());
+
+           }
 
 
            if(i<=2)
            {
-               segments[i] = new Segment((String) e.getKey(),(int)Float.parseFloat(s) );
+               //segments[i] = new Segment((String) e.getKey(),(int)Float.parseFloat(s) )
+               // ;
+               numbers [i]= Integer.parseInt(s) ;
                sum+=e.getValue();
+               titles[i]=e.getKey() + "("+e.getValue()+"%"+")";
            }
            i++;
        }
 
-        segments[3] =new Segment("Less Likely Diagnoses", 100-sum);
+        numbers[3] = 100-sum;
+       titles[3] = "Less Likely";
 
 
 
+       SimpleXYSeries[] seriesArray = new SimpleXYSeries[4];
+
+       int index =0;
+       for(Number n: numbers)
+       {
+           List temp = new ArrayList();
+           temp.add(n);
+           seriesArray[index] = new SimpleXYSeries(temp, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, titles[index]);
+           index++;
+       }
+
+
+
+
+       mSeries= new SimpleXYSeries(Arrays.asList(numbers),SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Disease Likelihood");
+
+       mPlot.setDomainBoundaries(-3, mSeries.size(), BoundaryMode.FIXED);
+       mPlot.setRangeUpperBoundary(SeriesUtils.minMax(mSeries).getMaxY().doubleValue(),BoundaryMode.FIXED);
+       mPlot.setRangeLowerBoundary(0.2,BoundaryMode.FIXED);
+
+
+       MyBarFormatter[] barFormatterList= new MyBarFormatter[4];
+       barFormatterList[0] = new MyBarFormatter(Color.YELLOW,Color.BLACK);
+        barFormatterList[1] = new MyBarFormatter(Color.RED,Color.BLACK);
+        barFormatterList[2] = new MyBarFormatter(Color.GREEN,Color.BLACK);
+        barFormatterList[3] = new MyBarFormatter(Color.argb(255, 10,10,10),Color.BLACK);
+
+        barFormatterList[0].setMarginLeft(PixelUtils.dpToPix(10));
+        barFormatterList[1].setMarginLeft(PixelUtils.dpToPix(10));
+        barFormatterList[2].setMarginLeft(PixelUtils.dpToPix(10));
+        barFormatterList[3].setMarginLeft(PixelUtils.dpToPix(10));
+
+        barFormatterList[0].setMarginRight(PixelUtils.dpToPix(10));
+        barFormatterList[1].setMarginRight(PixelUtils.dpToPix(10));
+        barFormatterList[2].setMarginRight(PixelUtils.dpToPix(10));
+        barFormatterList[3].setMarginRight(PixelUtils.dpToPix(10));
+
+
+       mPlot.addSeries(seriesArray[0],barFormatterList[0]);
+       mPlot.addSeries(seriesArray[1],barFormatterList[1]);
+       mPlot.addSeries(seriesArray[2],barFormatterList[2]);
+       mPlot.addSeries(seriesArray[3],barFormatterList[3]);
+
+       mPlot.setDomainStep(StepMode.INCREMENT_BY_VAL,6);
+
+       Paint whitePaint = new Paint();
+       whitePaint.setColor(Color.BLACK);
+       mPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).setPaint(whitePaint);
+        mPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.RIGHT).setPaint(whitePaint);
+        mPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setPaint(whitePaint);
+        mPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.TOP).setPaint(whitePaint);
+        mPlot.getLegend().setAnchor(Anchor.RIGHT_BOTTOM);
+        mPlot.getLegend().setTableModel(new DynamicTableModel(2, 2, TableOrder.COLUMN_MAJOR));
+        //mPlot.getLegend().setSize(new Size(15,SizeMode.ABSOLUTE,2000,SizeMode.ABSOLUTE ));
+        mPlot.getBorderPaint().setColor(Color.TRANSPARENT);
+        mPlot.getBackgroundPaint().setColor(Color.TRANSPARENT);
+
+       /*mPlot.getLegend().position(mPlot.getX(),HorizontalPositioning.ABSOLUTE_FROM_LEFT,
+               mPlot.getY()-30,VerticalPositioning.ABSOLUTE_FROM_BOTTOM );*/
+
+
+
+
+
+       /* mPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.BOTTOM).
+                setFormat(new GraphXLabelFormat(new String[]{"Test", "Test2"}));*/
+
+       MyBarRenderer barRenderer = mPlot.getRenderer(MyBarRenderer.class);
+       barRenderer.setBarGroupWidth(BarRenderer.BarGroupWidthMode.FIXED_WIDTH, PixelUtils.dpToPix(240));
+        //barRenderer.setBarGroupWidth(BarRenderer.BarGroupWidthMode.FIXED_GAP, PixelUtils.dpToPix(5));
+       barRenderer.setBarOrientation(BarRenderer.BarOrientation.SIDE_BY_SIDE);
+
+
+     //  mPlot.setDomainLabel("test");
+
+
+
+       ;
+
+
+       /*
                EmbossMaskFilter emf = new EmbossMaskFilter(
                 new float[]{1, 1, 1}, 0.4f, 10, 9.2f);
 
@@ -182,7 +315,7 @@ public class ResultsActivity extends AppCompatActivity {
         pie.getBackgroundPaint().setColor(Color.TRANSPARENT);
         mPieRenderer = pie.getRenderer(CustomPieRenderer.class);
 
-      mPieRenderer.setStartDegs(0);
+      mPieRenderer.setStartDegs(0);*/
 
         mDiseaseListView = (ExpandableListView) findViewById(R.id.disease_list_view);
 
@@ -201,6 +334,7 @@ public class ResultsActivity extends AppCompatActivity {
            }
            j++;
        }
+
 
 
 
@@ -251,7 +385,7 @@ public class ResultsActivity extends AppCompatActivity {
                         listTitle.get(groupPosition) + " List Collapsed.",
                         Toast.LENGTH_SHORT).show();
 
-             mPieRenderer.setDonutSize(1.0f, PieRenderer.DonutMode.PIXELS);
+             //mPieRenderer.setDonutSize(1.0f, PieRenderer.DonutMode.PIXELS);
              // pie.redraw();
             }
         });
@@ -284,7 +418,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     }
 
-    public void reducePieSize()
+   /* public void reducePieSize()
     {
         pie.getLegend().setSize(new Size(
                 PixelUtils.dpToPix(80), SizeMode.ABSOLUTE,
@@ -308,7 +442,7 @@ public class ResultsActivity extends AppCompatActivity {
         pie.refreshDrawableState();
         pie.redraw();
 
-    }
+    }*/
 
 
 
@@ -366,3 +500,47 @@ public class ResultsActivity extends AppCompatActivity {
 
 
 }
+
+
+class MyBarFormatter extends BarFormatter {
+
+    public MyBarFormatter(int fillColor, int borderColor) {
+        super(fillColor, borderColor);
+    }
+
+    @Override
+    public Class<? extends SeriesRenderer> getRendererClass() {
+        return MyBarRenderer.class;
+    }
+
+    @Override
+    public SeriesRenderer doGetRendererInstance(XYPlot plot) {
+        return new MyBarRenderer(plot);
+    }
+}
+
+class MyBarRenderer extends BarRenderer<MyBarFormatter> {
+
+    public MyBarRenderer(XYPlot plot) {
+        super(plot);
+    }
+
+    /**
+     * Implementing this method to allow us to inject our
+     * special selection getFormatter.
+     * @param index index of the point being rendered.
+     * @param series XYSeries to which the point being rendered belongs.
+     * @return
+     */
+    @Override
+    public MyBarFormatter getFormatter(int index, XYSeries series) {
+       /* if (selection != null &&
+                selection.second == series &&
+                selection.first == index) {
+            return selectionFormatter;
+        } else {*/
+            return getFormatter(series);
+        }
+    }
+
+

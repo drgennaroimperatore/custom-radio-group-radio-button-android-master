@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
     android:id="@+id/results_rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,12 +12,23 @@
 
 
 
-    <com.androidplot.pie.PieChart
+    <com.androidplot.xy.XYPlot
         android:id="@+id/mySimplePieChart"
-        androidPlot.title.labelPaint.textSize="@dimen/pie_title_font_size"
-        androidPlot.title.text="Most Likely Diseases"
+
+        ap:title=""
+        ap:rangeTitle=""
+        ap:domainTitle=""
+        ap:lineLabelRotationBottom="-45"
+        ap:rangeTitleWidthMode="fill"
+        ap:lineLabelTextSizeLeft="10dp"
+        ap:legendWidthMode="fill"
+        ap:legendWidth="50dp"
+        ap:legendHeight="50dp"
+        ap:legendAnchor="right_bottom"
+        ap:legendTextSize="18dp"
+
         android:layout_width="411dp"
-        android:layout_height="215dp"
+        android:layout_height="555dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="2dp"
         android:layout_weight="1"
@@ -29,6 +41,7 @@
         android:layout_width="399dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/mySimplePieChart"
+
 
 
         android:layout_alignParentBottom="false"
@@ -44,7 +57,8 @@
             android:id="@+id/disease_list_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible">
+            android:visibility="gone">
+
 
 
             <ExpandableListView
@@ -82,6 +96,7 @@
             android:layout_marginLeft="0dp"
             android:layout_marginBottom="0dp"
             android:background="@color/colorPrimary"
+            android:visibility="gone"
 
             android:text="&lt; Cancel"
             android:textColor="@color/black"

@@ -43,7 +43,7 @@ public class MyCasesDiagnosisInfoTabFragmentListViewAdapter extends ArrayAdapter
 
           String diseaseName = ADDB.getInstance(mContext)
                   .getADDBDAO()
-                  .getDiseaseNameFromId(mData.get(position).ID)
+                  .getDiseaseNameFromId(mData.get(position).DiseaseID)
                   .get(0);
 
             diagnosisNameTV.setText(diseaseName);
